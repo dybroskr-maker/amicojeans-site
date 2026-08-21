@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMICO JEANS — 데님 생산 프로모션</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+
+<style>
+:root{--ink:#14161A;--indigo:#1E2F4D;--raw:#E8E4DC;--paper:#F7F5F1;--selvedge:#B7332B;
+--line:rgba(20,22,26,.14);--mute:#6E7278;--disp:'Archivo',sans-serif;--body:'Pretendard',-apple-system,sans-serif;--gut:24px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--selvedge);outline-offset:3px}
+.selvedge{position:fixed;left:10px;top:0;bottom:0;width:1px;background:var(--line);z-index:60}
+.selvedge::before{content:"";position:absolute;left:-1px;width:3px;top:calc(8vh + var(--p,0)*62vh);height:22vh;background:var(--selvedge)}
+@media(max-width:820px){.selvedge{display:none}}
+header{position:sticky;top:0;z-index:50;background:rgba(247,245,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:28px;padding:0 var(--gut);height:60px;max-width:1320px;margin:0 auto}
+.logo{font-family:var(--disp);font-weight:600;font-size:17px;letter-spacing:.22em;white-space:nowrap}
+.logo small{display:block;font-family:var(--body);font-weight:400;font-size:9px;letter-spacing:.18em;color:var(--mute);margin-top:-3px}
+nav{display:flex;gap:26px;margin-left:auto}
+nav button{font-size:13.5px;padding:6px 0;border-bottom:1px solid transparent;color:var(--mute)}
+nav button.on{color:var(--ink);border-bottom-color:var(--selvedge)}
+.login{font-family:var(--disp);font-size:11px;letter-spacing:.14em;border:1px solid var(--ink);padding:7px 13px}
+.login:hover{background:var(--ink);color:var(--paper)}
+.burger{display:none;margin-left:auto;font-size:20px}
+@media(max-width:820px){
+nav{position:fixed;inset:60px 0 auto;background:var(--paper);flex-direction:column;gap:0;padding:8px var(--gut) 20px;border-bottom:1px solid var(--line);transform:translateY(-120%);transition:transform .35s;margin:0}
+nav.open{transform:none}
+nav button{text-align:left;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
+.burger{display:block}.login{display:none}}
+main{max-width:1320px;margin:0 auto;padding:0 var(--gut) 90px;position:relative}
+.page{display:none}.page.on{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{font-family:var(--disp);font-size:10.5px;letter-spacing:.24em;color:var(--selvedge);text-transform:uppercase}
+h2{font-family:var(--disp);font-weight:400;font-size:clamp(26px,5vw,40px);letter-spacing:.02em;line-height:1.1;margin:8px 0 6px}
+h3{font-size:16px;font-weight:600}
+.lead{color:var(--mute);max-width:56ch;font-size:14px}
+.sechead{padding:64px 0 26px;border-top:1px solid var(--line)}
+.sechead:first-child{border-top:0}
+.slot{position:relative;background:repeating-linear-gradient(58deg,rgba(30,47,77,.10) 0 2px,transparent 2px 5px),linear-gradient(160deg,#3C5480,#1E2F4D 60%,#16233A);display:flex;align-items:flex-end;padding:14px;transition:filter .3s}
+.slot span{font-family:var(--disp);font-size:10px;letter-spacing:.16em;color:rgba(255,255,255,.62);text-transform:uppercase}
+.r34{aspect-ratio:3/4}.r11{aspect-ratio:1/1}.r169{aspect-ratio:16/9}.r43{aspect-ratio:4/3}
+.hero{position:relative;margin:0 calc(var(--gut)*-1);height:min(78vh,660px);overflow:hidden}
+.hero .slot{height:100%;padding:0}
+.hero .cap{position:absolute;left:var(--gut);bottom:34px;color:#fff;max-width:min(90%,620px)}
+.hero h1{font-family:var(--disp);font-weight:300;font-size:clamp(30px,7.4vw,66px);line-height:1.03}
+.hero h1 em{font-style:normal;font-weight:600}
+.hero p{margin-top:12px;font-size:14px;color:rgba(255,255,255,.82)}
+.marks{position:absolute;right:var(--gut);bottom:34px;text-align:right;color:rgba(255,255,255,.7);font-family:var(--disp);font-size:11px;letter-spacing:.14em;line-height:1.9}
+.grid{display:grid;gap:16px 14px;grid-template-columns:repeat(4,1fr)}
+.grid.g3{grid-template-columns:repeat(3,1fr)}.grid.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}.grid.g3,.grid.g2{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid,.grid.g3{grid-template-columns:repeat(2,1fr)}.grid.g2{grid-template-columns:1fr}}
+.card figcaption{padding:9px 1px 0}
+.card .t{font-size:13.5px;font-weight:600}
+.card .m{font-size:11.5px;color:var(--mute);font-family:var(--disp);letter-spacing:.06em;margin-top:2px}
+.card:hover .slot{filter:brightness(1.14)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 20px}
+.chip{font-size:12px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--mute)}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tl{border-top:1px solid var(--line)}
+.tl-row{display:grid;grid-template-columns:104px 1fr 220px;gap:22px;padding:20px 0;border-bottom:1px solid var(--line);align-items:start}
+.tl-date{font-family:var(--disp);font-size:12px;letter-spacing:.1em;color:var(--mute)}
+.tl-date b{display:block;font-size:22px;font-weight:500;color:var(--ink)}
+.tl-body p{font-size:13.5px;color:var(--mute);margin-top:5px}
+.stage{display:inline-block;font-family:var(--disp);font-size:10px;letter-spacing:.14em;padding:3px 8px;border:1px solid var(--line);margin-top:9px}
+.stage.now{background:var(--selvedge);color:#fff;border-color:var(--selvedge)}
+@media(max-width:760px){.tl-row{grid-template-columns:1fr;gap:10px}.tl-date b{display:inline;font-size:16px;margin-right:8px}}
+.subtabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin-bottom:30px;overflow-x:auto}
+.subtabs button{padding:11px 0;font-size:13.5px;color:var(--mute);border-bottom:2px solid transparent;white-space:nowrap}
+.subtabs button.on{color:var(--ink);border-bottom-color:var(--ink)}
+.sub{display:none}.sub.on{display:block}
+.two{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start}
+@media(max-width:820px){.two{grid-template-columns:1fr;gap:24px}}
+.two p{margin-bottom:14px;font-size:14.5px}
+.facts{border-top:1px solid var(--line);margin-top:22px}
+.facts div{display:flex;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.facts b{font-family:var(--disp);font-size:11px;letter-spacing:.13em;color:var(--mute);width:104px;flex:none;padding-top:3px;font-weight:500}
+.fit{width:100%;border-collapse:collapse;font-size:13px}
+.fit th,.fit td{border-bottom:1px solid var(--line);padding:11px 8px;text-align:left}
+.fit th{font-family:var(--disp);font-size:10.5px;letter-spacing:.13em;color:var(--mute);font-weight:500}
+.fit td:first-child{font-weight:600}
+.fitnote{font-size:12px;color:var(--mute);margin-top:12px}
+.room{background:var(--ink);color:var(--raw);margin:0 calc(var(--gut)*-1);padding:44px var(--gut) 56px}
+.room .eyebrow{color:#E0A64B}.room h2{color:var(--raw)}.room .lead{color:rgba(232,228,220,.62)}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+@media(max-width:900px){.board{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.board{grid-template-columns:1fr}}
+.col{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);padding:12px;min-height:180px}
+.col h4{font-family:var(--disp);font-size:10.5px;letter-spacing:.15em;color:rgba(232,228,220,.55);font-weight:500;margin-bottom:11px;display:flex;justify-content:space-between}
+.tkt{background:#1D2026;border:1px solid rgba(255,255,255,.09);border-left:2px solid #E0A64B;padding:9px 10px;margin-bottom:8px}
+.tkt .no{font-family:var(--disp);font-size:10px;letter-spacing:.1em;color:rgba(232,228,220,.5)}
+.tkt .ti{font-size:13px;margin:2px 0 5px}
+.tkt .me{font-size:11px;color:rgba(232,228,220,.45)}
+.tkt.done{border-left-color:#4F7A55;opacity:.62}.tkt.late{border-left-color:var(--selvedge)}
+footer{border-top:1px solid var(--line);padding:40px var(--gut) 90px;max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:30px;font-size:12.5px;color:var(--mute)}
+@media(max-width:760px){footer{grid-template-columns:1fr;gap:22px}}
+footer h5{font-family:var(--disp);font-size:10.5px;letter-spacing:.16em;color:var(--ink);margin-bottom:9px;font-weight:500}
+footer li{list-style:none;padding:2px 0}
+.badge{display:inline-block;border:1px solid var(--line);padding:3px 8px;font-family:var(--disp);font-size:10px;letter-spacing:.12em;margin-top:14px}
+
+/* ── 리뷰 레이어 ─────────────────────────────── */
+#rvbar{position:fixed;right:16px;bottom:16px;z-index:200;display:flex;gap:8px;align-items:center}
+#rvbar button{background:var(--ink);color:var(--paper);padding:11px 15px;font-size:13px;border-radius:2px;box-shadow:0 3px 14px rgba(0,0,0,.22)}
+#rvbar button.act{background:var(--selvedge)}
+#rvbar .cnt{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+body.pinmode{cursor:crosshair}
+body.pinmode main *{cursor:crosshair}
+.pin{position:absolute;z-index:120;transform:translate(-50%,-100%);font-family:var(--disp);font-size:11px;font-weight:600;background:var(--selvedge);color:#fff;width:24px;height:24px;border-radius:50% 50% 50% 2px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer}
+.pin.mine{background:var(--ink)}
+#rvpanel{position:fixed;right:0;top:0;bottom:0;width:min(380px,90vw);background:var(--paper);border-left:1px solid var(--line);z-index:210;transform:translateX(102%);transition:transform .3s;display:flex;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.1)}
+#rvpanel.open{transform:none}
+#rvpanel header{position:static;background:none;border-bottom:1px solid var(--line);padding:16px 18px;display:flex;align-items:center;gap:10px}
+#rvpanel h4{font-family:var(--disp);font-size:12px;letter-spacing:.16em}
+#rvpanel .x{margin-left:auto;font-size:20px;color:var(--mute)}
+#rvlist{flex:1;overflow:auto;padding:8px 18px 18px}
+.item{border-bottom:1px solid var(--line);padding:12px 0}
+.item .h{display:flex;gap:8px;align-items:baseline;font-size:11px;color:var(--mute);font-family:var(--disp);letter-spacing:.08em}
+.item .h b{color:var(--selvedge)}
+.item p{font-size:13.5px;margin:4px 0 6px;white-space:pre-wrap}
+.item .a{font-size:11.5px;color:var(--mute);display:flex;gap:12px}
+.item .a button{text-decoration:underline}
+#rvfoot{border-top:1px solid var(--line);padding:14px 18px;display:grid;gap:8px}
+#rvfoot button{border:1px solid var(--ink);padding:10px;font-size:13px}
+#rvfoot .send{background:var(--ink);color:var(--paper)}
+#rvfoot .hint{font-size:11.5px;color:var(--mute);line-height:1.5}
+#rvdlg{position:fixed;inset:0;background:rgba(20,22,26,.5);z-index:230;display:none;align-items:center;justify-content:center;padding:20px}
+#rvdlg.open{display:flex}
+#rvdlg .box{background:var(--paper);padding:20px;width:min(420px,100%);border-top:3px solid var(--selvedge)}
+#rvdlg h4{font-size:15px;margin-bottom:4px}
+#rvdlg small{color:var(--mute);font-size:12px}
+#rvdlg textarea,#rvdlg input{width:100%;border:1px solid var(--line);padding:10px;font:inherit;font-size:14px;margin-top:12px;background:#fff;border-radius:2px}
+#rvdlg textarea{min-height:96px;resize:vertical}
+#rvdlg .btns{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+#rvdlg .btns button{padding:9px 16px;font-size:13px;border:1px solid var(--ink)}
+#rvdlg .btns .go{background:var(--ink);color:var(--paper)}
+#rvtoast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:11px 18px;font-size:13px;z-index:240;opacity:0;pointer-events:none;transition:opacity .3s}
+#rvtoast.on{opacity:1}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="selvedge" id="sv"></div>
+
+<header>
+<div class="bar">
+<a class="logo" href="#" onclick="go('home');return false">AMICO<small>JEANS · 데님 프로모션</small></a>
+<button class="burger" onclick="document.querySelector('nav').classList.toggle('open')">≡</button>
+<nav>
+<button data-p="collection" onclick="go('collection')">컬렉션</button>
+<button data-p="project" onclick="go('project')">프로젝트</button>
+<button data-p="brand" onclick="go('brand')">브랜드</button>
+<button data-p="room" onclick="go('room')">거래처룸</button>
+</nav>
+<button class="login" onclick="go('room')">CLIENT LOGIN</button>
+</div>
+</header>
+
+<main>
+<section class="page on" id="p-home">
+<div class="hero">
+<div class="slot"><span></span></div>
+<div class="cap"><h1>데님 한 종목,<br><em>기획부터 완사입까지.</em></h1>
+<p>서울과 중국 두 곳의 생산 사무실에서 브랜드의 데님을 함께 짓습니다.</p></div>
+<div class="marks">SEOUL · 구파발<br>CHINA · 생산 사무소<br>AMICO JEANS</div>
+</div>
+
+<div class="sechead"><p class="eyebrow">Collection</p><h2>이번 시즌 수주 상품</h2>
+<p class="lead">거래처와 확정한 스타일을 시즌별로 정리합니다. 원단·핏·워싱 정보를 한 화면에서 확인하세요.</p></div>
+<div class="grid">
+<figure class="card"><div class="slot r34"><span>26FW / 001</span></div><figcaption><div class="t">와이드 스트레이트</div><div class="m">14.5oz RIGID · ONE WASH</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26FW / 002</span></div><figcaption><div class="t">세미 부츠컷</div><div class="m">12oz · SOFT GRUNGE</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26FW / 003</span></div><figcaption><div class="t">데님 트러커</div><div class="m">13oz · VINTAGE WASH</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26FW / 004</span></div><figcaption><div class="t">테이퍼드 크롭</div><div class="m">11oz BLACK · RAW</div></figcaption></figure>
+</div>
+<p style="margin-top:18px"><button class="login" onclick="go('collection')">컬렉션 전체 보기</button></p>
+
+<div class="sechead"><p class="eyebrow">Project</p><h2>다음 수주회</h2></div>
+<div class="two">
+<div class="slot r169"><span>수주회 현장 · 16:9</span></div>
+<div><p class="eyebrow">2026 · 09 · 15 — 09 · 19</p>
+<h3 style="font-size:22px;margin:6px 0 10px">26 F/W 수주회 · 구파발 쇼룸</h3>
+<p class="lead">샘플 42스타일, 원단 스와치 전량 비치. 방문 일정은 거래처룸에서 신청하시면 시간대를 배정해 드립니다.</p>
+<div class="facts">
+<div><b>장소</b><span>서울 은평구 구파발 쇼룸</span></div>
+<div><b>준비</b><span>샘플 입고 완료 · 스토어 세팅 진행 중</span></div>
+<div><b>신청</b><span>거래처룸 → 수주회 예약</span></div>
+</div></div>
+</div>
+</section>
+
+<section class="page" id="p-collection">
+<div class="sechead"><p class="eyebrow">Collection</p><h2>컬렉션</h2>
+<p class="lead">수주 확정 스타일 아카이브. 시즌·핏·워싱으로 걸러 보고, 스타일을 누르면 사양과 오더 현황이 열립니다.</p></div>
+<div class="chips"><span class="chip on">전체</span><span class="chip">26 F/W</span><span class="chip">26 S/S</span><span class="chip">와이드</span><span class="chip">스트레이트</span><span class="chip">부츠컷</span><span class="chip">아우터</span></div>
+<div class="grid" id="colgrid"></div>
+</section>
+
+<section class="page" id="p-project">
+<div class="sechead"><p class="eyebrow">Project</p><h2>프로젝트</h2>
+<p class="lead">수주회 일정과 준비 과정을 순서대로 기록합니다. 준비 사진은 진행 중에, 현장 사진은 종료 후에 올라갑니다.</p></div>
+<div class="tl">
+<div class="tl-row"><div class="tl-date">2026 · 09<b>15</b>—19</div>
+<div class="tl-body"><h3>26 F/W 수주회 · 구파발 쇼룸</h3><p>샘플 42스타일 · 스와치 전량 비치 · 거래처별 시간대 배정</p><span class="stage now">준비 중 · D-25</span></div>
+<div class="slot r43"><span>쇼룸 세팅</span></div></div>
+<div class="tl-row"><div class="tl-date">2026 · 08<b>02</b></div>
+<div class="tl-body"><h3>26 F/W 샘플 리뷰 · 중국 사무소</h3><p>1차 샘플 38스타일 핏 검토, 워싱 3안 비교</p><span class="stage">종료 · 사진 12장</span></div>
+<div class="slot r43"><span>샘플 리뷰</span></div></div>
+<div class="tl-row"><div class="tl-date">2026 · 03<b>10</b>—14</div>
+<div class="tl-body"><h3>26 S/S 수주회 · 구파발 쇼룸</h3><p>참가 거래처 11곳 · 수주 스타일 23종</p><span class="stage">종료 · 사진 28장</span></div>
+<div class="slot r43"><span>수주회 현장</span></div></div>
+</div>
+</section>
+
+<section class="page" id="p-brand">
+<div class="sechead"><p class="eyebrow">Brand</p><h2>브랜드</h2></div>
+<div class="subtabs">
+<button class="on" onclick="sub(0,this)">브랜드 소개</button>
+<button onclick="sub(1,this)">핏 가이드</button>
+<button onclick="sub(2,this)">스토어</button>
+</div>
+<div class="sub on">
+<div class="two">
+<div><p class="eyebrow">Seoul & China</p>
+<h3 style="font-size:24px;margin:8px 0 16px;line-height:1.35">데님만 합니다.<br>대신, 데님의 처음부터 끝까지 합니다.</h3>
+<p>아미코진스는 데님 전문 생산 프로모션 회사입니다. 한국 사무실에서 기획과 거래처 관리를, 중국 사무실에서 원단·봉제·워싱 생산을 직접 관리합니다.</p>
+<p>대표 남상백은 이탈리아 패션 스쿨에서 공부한 뒤 데님 한 종목에 집중해 왔습니다. 브랜드가 그리는 핏을 원단과 워싱의 언어로 옮기는 일 — 그게 저희가 하는 일입니다.</p>
+<p>신규 브랜드에는 기획과 브랜드 빌딩부터, 기존 거래처에는 시즌 리오더와 품질 관리까지 이어서 맡습니다.</p>
+<div class="facts">
+<div><b>사업</b><span>데님 기획 · 생산 프로모션 · 브랜드 빌딩</span></div>
+<div><b>거점</b><span>서울(구파발) · 중국 생산 사무소</span></div>
+<div><b>품목</b><span>진 · 데님 아우터 · 워크웨어</span></div>
+<div><b>대표</b><span>남상백 (이탈리아 패션 스쿨 수학)</span></div>
+</div></div>
+<div class="slot r34"><span>대표 · 작업실 포트레이트</span></div>
+</div></div>
+
+<div class="sub">
+<h3 style="font-size:20px;margin-bottom:6px">핏 가이드</h3>
+<p class="lead" style="margin-bottom:22px">아미코 기본 핏 5종입니다. 브랜드 요청에 따라 밑위·허벅지·밑단만 조정해 파생 핏을 만듭니다.</p>
+<div class="grid g3" style="margin-bottom:26px">
+<figure class="card"><div class="slot r34"><span>FIT 01 · 착용컷</span></div><figcaption><div class="t">와이드</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>FIT 02 · 착용컷</span></div><figcaption><div class="t">스트레이트</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>FIT 03 · 착용컷</span></div><figcaption><div class="t">세미 부츠컷</div></figcaption></figure>
+</div>
+<table class="fit">
+<tr><th>핏</th><th>밑위</th><th>허벅지</th><th>밑단</th><th>권장 원단</th></tr>
+<tr><td>와이드</td><td>하이</td><td>여유</td><td>넓음</td><td>13–14.5oz 리지드</td></tr>
+<tr><td>스트레이트</td><td>미드</td><td>보통</td><td>보통</td><td>12–13oz</td></tr>
+<tr><td>세미 부츠컷</td><td>미드</td><td>슬림</td><td>퍼짐</td><td>11–12oz 스트레치</td></tr>
+<tr><td>테이퍼드</td><td>미드</td><td>보통</td><td>좁음</td><td>11–12.5oz</td></tr>
+<tr><td>슬림</td><td>로우–미드</td><td>슬림</td><td>좁음</td><td>10–11oz 스트레치</td></tr>
+</table>
+<p class="fitnote">수치는 브랜드별 사이즈 스펙에 맞춰 그레이딩합니다. 상세 치수표는 거래처룸에서 내려받으세요.</p>
+</div>
+
+<div class="sub">
+<h3 style="font-size:20px;margin-bottom:6px">스토어 · 구파발 쇼룸</h3>
+<p class="lead" style="margin-bottom:22px">샘플과 원단 스와치를 직접 보고 만질 수 있는 공간입니다. 방문은 예약제로 운영합니다.</p>
+<div class="grid g2" style="margin-bottom:20px">
+<div class="slot r43"><span>쇼룸 전경</span></div>
+<div class="slot r43"><span>스와치 월</span></div>
+<div class="slot r43"><span>샘플 행거</span></div>
+<div class="slot r43"><span>미팅 테이블</span></div>
+</div>
+<div class="facts" style="max-width:520px">
+<div><b>주소</b><span>서울 은평구 구파발 — (상세 주소 입력)</span></div>
+<div><b>운영</b><span>평일 10:00–18:00 · 예약제</span></div>
+<div><b>예약</b><span>거래처룸 또는 대표 연락처</span></div>
+</div>
+</div>
+</section>
+
+<section class="page" id="p-room">
+<div class="room">
+<p class="eyebrow">Client Room · 로그인 후 화면</p>
+<h2>거래처룸</h2>
+<p class="lead">엑셀과 카톡에 흩어진 오더 진행을 한 판에 모읍니다. 거래처는 자기 오더만, 직원은 담당 오더 전부를 봅니다.</p>
+<div class="board">
+<div class="col"><h4>샘플 <span>3</span></h4>
+<div class="tkt"><div class="no">26FW-014</div><div class="ti">와이드 스트레이트 · 1차 샘플</div><div class="me">A사 · 김OO · 8/24까지</div></div>
+<div class="tkt late"><div class="no">26FW-021</div><div class="ti">트러커 · 워싱 3안</div><div class="me">B사 · 이OO · 2일 지연</div></div>
+<div class="tkt"><div class="no">26FW-025</div><div class="ti">테이퍼드 · 패턴 수정</div><div class="me">A사 · 김OO</div></div></div>
+<div class="col"><h4>확정 <span>2</span></h4>
+<div class="tkt"><div class="no">26FW-008</div><div class="ti">세미 부츠컷 · 320장</div><div class="me">C사 · 박OO · 원단 발주 완료</div></div>
+<div class="tkt"><div class="no">26FW-011</div><div class="ti">크롭 스트레이트 · 180장</div><div class="me">B사 · 이OO</div></div></div>
+<div class="col"><h4>생산 <span>2</span></h4>
+<div class="tkt"><div class="no">26SS-093</div><div class="ti">와이드 · 재봉 60%</div><div class="me">중국 · 9/2 워싱 예정</div></div>
+<div class="tkt"><div class="no">26SS-097</div><div class="ti">데님 셔츠 · 워싱 중</div><div class="me">중국 · 검품 대기</div></div></div>
+<div class="col"><h4>출고 <span>2</span></h4>
+<div class="tkt done"><div class="no">26SS-088</div><div class="ti">스트레이트 · 240장</div><div class="me">8/12 입고 완료</div></div>
+<div class="tkt done"><div class="no">26SS-090</div><div class="ti">트러커 · 150장</div><div class="me">8/18 입고 완료</div></div></div>
+</div>
+<p style="margin-top:22px;font-size:12.5px;color:rgba(232,228,220,.5)">카드 하나 = 오더 하나. 사진·코멘트·확정 파일이 카드 안에 쌓이고, 상태가 바뀌면 담당자에게 알림이 갑니다. 컬렉션 페이지의 상품은 여기 카드에서 자동으로 만들어집니다.</p>
+</div>
+</section>
+</main>
+
+<footer>
+<div><h5>AMICO JEANS</h5>
+<p>데님 전문 생산 프로모션<br>서울 은평구 구파발 쇼룸 · 중국 생산 사무소</p>
+<span class="badge">PROTOTYPE v0.2</span></div>
+<div><h5>CONTACT</h5><ul><li>대표 남상백</li><li>TEL — (입력)</li><li>MAIL — (입력)</li><li>인스타그램 — (입력)</li></ul></div>
+<div><h5>SITE</h5><ul>
+<li><a href="#" onclick="go('collection');return false">컬렉션</a></li>
+<li><a href="#" onclick="go('project');return false">프로젝트</a></li>
+<li><a href="#" onclick="go('brand');return false">브랜드</a></li>
+<li><a href="#" onclick="go('room');return false">거래처룸</a></li></ul></div>
+</footer>
+
+<div id="rvbar">
+<button class="cnt" id="rvcnt" onclick="panel(true)">의견 0</button>
+<button id="rvtog" onclick="toggle()">의견 남기기</button>
+</div>
+
+<div id="rvpanel">
+<header><h4>의견 목록</h4><button class="x" onclick="panel(false)">×</button></header>
+<div id="rvlist"></div>
+<div id="rvfoot">
+<button class="send" onclick="send()">의견 보내기</button>
+<button onclick="load()">받은 의견 불러오기</button>
+<p class="hint">의견은 이 브라우저에만 저장됩니다. 다 적으신 뒤 <b>의견 보내기</b>를 누르면 카톡·문자로 보낼 수 있게 정리됩니다.</p>
+</div>
+</div>
+
+<div id="rvdlg"><div class="box" id="rvbox"></div></div>
+<div id="rvtoast"></div>
+
+<script>
+/* ── 콘텐츠 ─────────────────────────────── */
+const styles=[["와이드 스트레이트","14.5oz RIGID · ONE WASH"],["세미 부츠컷","12oz · SOFT GRUNGE"],["데님 트러커","13oz · VINTAGE WASH"],["테이퍼드 크롭","11oz BLACK · RAW"],["하이라이즈 와이드","14oz · MID BLUE"],["스트레이트 롱","12.5oz · STONE"],["데님 셔츠","8oz · SOFT WASH"],["카펜터 팬츠","13.5oz · ECRU"],["슬림 테이퍼드","11oz STRETCH"],["배럴 레그","13oz · DARK RINSE"],["와이드 카고","14oz · BLACK OVERDYE"],["트러커 오버핏","12oz · BLEACH"]];
+document.getElementById('colgrid').innerHTML=styles.map((s,i)=>`<figure class="card"><div class="slot r34"><span>26FW / ${String(i+1).padStart(3,'0')}</span></div><figcaption><div class="t">${s[0]}</div><div class="m">${s[1]}</div></figcaption></figure>`).join('');
+
+const PAGES={home:'홈',collection:'컬렉션',project:'프로젝트',brand:'브랜드',room:'거래처룸'};
+let cur='home';
+function go(p){
+  cur=p;
+  document.querySelectorAll('.page').forEach(e=>e.classList.toggle('on',e.id==='p-'+p));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  document.querySelector('nav').classList.remove('open');
+  window.scrollTo({top:0,behavior:'instant'});
+  draw();
+}
+function sub(i,btn){
+  document.querySelectorAll('.subtabs button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.querySelectorAll('#p-brand .sub').forEach((s,n)=>s.classList.toggle('on',n===i));
+  draw();
+}
+addEventListener('scroll',()=>{
+  const r=scrollY/Math.max(1,document.body.scrollHeight-innerHeight);
+  document.getElementById('sv').style.setProperty('--p',r.toFixed(3));
+},{passive:true});
+
+/* ── 리뷰 ───────────────────────────────── */
+const KEY='amico_review_v1';
+let notes=JSON.parse(localStorage.getItem(KEY)||'[]');
+let who=localStorage.getItem('amico_who')||'';
+let pinning=false;
+const save=()=>localStorage.setItem(KEY,JSON.stringify(notes));
+const toast=t=>{const e=document.getElementById('rvtoast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2200)};
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+function toggle(){
+  if(!who){ askName(()=>toggle()); return; }
+  pinning=!pinning;
+  document.body.classList.toggle('pinmode',pinning);
+  const b=document.getElementById('rvtog');
+  b.classList.toggle('act',pinning);
+  b.textContent=pinning?'의견 위치 클릭 · 끄기':'의견 남기기';
+  if(pinning) toast('의견을 남길 자리를 화면에서 눌러 주세요');
+}
+function askName(after){
+  dlg(`<h4>성함을 알려 주세요</h4><small>의견에 이름이 함께 남습니다.</small>
+  <input id="nm" placeholder="예: 남상백" value="${esc(who)}">
+  <div class="btns"><button onclick="closeDlg()">취소</button><button class="go" id="ok">확인</button></div>`);
+  const inp=document.getElementById('nm');inp.focus();
+  document.getElementById('ok').onclick=()=>{
+    const v=inp.value.trim(); if(!v){inp.focus();return;}
+    who=v;localStorage.setItem('amico_who',v);closeDlg();after&&after();
+  };
+}
+function dlg(html){document.getElementById('rvbox').innerHTML=html;document.getElementById('rvdlg').classList.add('open')}
+function closeDlg(){document.getElementById('rvdlg').classList.remove('open')}
+
+document.querySelector('main').addEventListener('click',e=>{
+  if(!pinning) return;
+  e.preventDefault();e.stopPropagation();
+  const m=document.querySelector('main').getBoundingClientRect();
+  const x=((e.clientX-m.left)/m.width*100), y=((e.clientY-m.top+window.scrollY-window.scrollY)/m.height*100);
+  const yAbs=((e.pageY-(m.top+window.scrollY))/m.height*100);
+  addNote(x,yAbs);
+},true);
+
+function addNote(x,y){
+  const sub=cur==='brand'?[...document.querySelectorAll('.subtabs button')].findIndex(b=>b.classList.contains('on')):0;
+  dlg(`<h4>이 자리에 대한 의견</h4><small>${PAGES[cur]}${cur==='brand'?' · '+['브랜드 소개','핏 가이드','스토어'][sub]:''}</small>
+  <textarea id="tx" placeholder="예: 히어로 사진은 워싱 원단 클로즈업으로 갔으면 합니다"></textarea>
+  <div class="btns"><button onclick="closeDlg();">취소</button><button class="go" id="ok">등록</button></div>`);
+  const t=document.getElementById('tx');t.focus();
+  document.getElementById('ok').onclick=()=>{
+    const v=t.value.trim(); if(!v){t.focus();return;}
+    notes.push({id:Date.now(),page:cur,sub,x:+x.toFixed(2),y:+y.toFixed(2),txt:v,who,at:new Date().toISOString().slice(5,16).replace('T',' ')});
+    save();closeDlg();draw();toast('의견이 등록되었습니다');
+  };
+}
+function del(id){notes=notes.filter(n=>n.id!==id);save();draw()}
+function jump(id){
+  const n=notes.find(x=>x.id===id); if(!n) return;
+  if(n.page!==cur) go(n.page);
+  if(n.page==='brand'){const b=document.querySelectorAll('.subtabs button')[n.sub];b&&sub(n.sub,b)}
+  panel(false);
+  setTimeout(()=>{const el=document.querySelector('.pin[data-id="'+id+'"]');
+    if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.animate([{transform:'translate(-50%,-100%) scale(1)'},{transform:'translate(-50%,-100%) scale(1.7)'},{transform:'translate(-50%,-100%) scale(1)'}],{duration:700})}},260);
+}
+function panel(open){document.getElementById('rvpanel').classList.toggle('open',open)}
+
+function draw(){
+  document.querySelectorAll('.pin').forEach(p=>p.remove());
+  const main=document.querySelector('main');
+  const curSub=[...document.querySelectorAll('.subtabs button')].findIndex(b=>b.classList.contains('on'));
+  notes.filter(n=>n.page===cur&&(cur!=='brand'||n.sub===curSub)).forEach(n=>{
+    const i=notes.indexOf(n)+1;
+    const el=document.createElement('div');
+    el.className='pin'+(n.who===who?' mine':'');el.dataset.id=n.id;el.textContent=i;
+    el.style.left=n.x+'%';el.style.top=n.y+'%';el.title=n.who+': '+n.txt;
+    el.onclick=ev=>{ev.stopPropagation();panel(true);};
+    main.appendChild(el);
+  });
+  document.getElementById('rvcnt').textContent='의견 '+notes.length;
+  document.getElementById('rvlist').innerHTML=notes.length?notes.map((n,i)=>
+    `<div class="item"><div class="h"><b>${i+1}</b><span>${PAGES[n.page]}${n.page==='brand'?' · '+['브랜드 소개','핏 가이드','스토어'][n.sub]:''}</span><span>${n.at}</span></div>
+     <p>${esc(n.txt)}</p><div class="a"><span>${esc(n.who)}</span>
+     <button onclick="jump(${n.id})">위치 보기</button><button onclick="del(${n.id})">삭제</button></div></div>`).join('')
+    :'<p style="padding:22px 0;color:var(--mute);font-size:13.5px">아직 의견이 없습니다.<br>오른쪽 아래 <b>의견 남기기</b>를 누르고, 말씀하실 자리를 화면에서 클릭하세요.</p>';
+}
+
+function text(){
+  return '[아미코진스 홈페이지 v0.2 의견 · '+who+']\n\n'+
+   notes.map((n,i)=>`${i+1}. ${PAGES[n.page]}${n.page==='brand'?'/'+['브랜드 소개','핏 가이드','스토어'][n.sub]:''} — ${n.txt}`).join('\n')+
+   '\n\n#AMICO'+btoa(unescape(encodeURIComponent(JSON.stringify(notes))));
+}
+async function send(){
+  if(!notes.length){toast('등록된 의견이 없습니다');return}
+  const t=text();
+  if(navigator.share){try{await navigator.share({text:t});return}catch(e){}}
+  try{await navigator.clipboard.writeText(t);toast('의견을 복사했습니다 — 카톡에 붙여넣어 보내세요')}
+  catch(e){dlg('<h4>아래 내용을 복사해 보내 주세요</h4><textarea id="tx" style="min-height:200px">'+esc(t)+'</textarea><div class="btns"><button class="go" onclick="closeDlg()">닫기</button></div>');
+    setTimeout(()=>{const a=document.getElementById('tx');a.focus();a.select()},100)}
+}
+function load(){
+  dlg(`<h4>받은 의견 불러오기</h4><small>전달받은 의견 텍스트를 그대로 붙여넣으세요.</small>
+  <textarea id="tx" placeholder="#AMICO... 가 포함된 텍스트"></textarea>
+  <div class="btns"><button onclick="closeDlg()">취소</button><button class="go" id="ok">불러오기</button></div>`);
+  document.getElementById('ok').onclick=()=>{
+    const v=document.getElementById('tx').value;const m=v.match(/#AMICO([A-Za-z0-9+/=]+)/);
+    if(!m){toast('의견 데이터를 찾지 못했습니다');return}
+    try{const inc=JSON.parse(decodeURIComponent(escape(atob(m[1]))));
+      const ids=new Set(notes.map(n=>n.id));inc.forEach(n=>{if(!ids.has(n.id))notes.push(n)});
+      save();closeDlg();draw();toast('의견 '+inc.length+'건을 불러왔습니다')}
+    catch(e){toast('불러오기에 실패했습니다')}
+  };
+}
+document.getElementById('rvdlg').onclick=e=>{if(e.target.id==='rvdlg')closeDlg()};
+addEventListener('resize',draw);
+draw();
+</script>
+</html>
