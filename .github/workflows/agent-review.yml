@@ -1,0 +1,104 @@
+name: 에이전트 리뷰어
+
+# AMILOOM — PR 검증 + 자동 머지
+# 워커가 연 PR 을 읽고 리뷰를 남긴 뒤, 조건 5종을 전부 충족하면 머지한다.
+# 자동 머지 조건은 이 파일의 automerge 잡 한 곳에서만 정의한다.
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: agent-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: startsWith(github.event.pull_request.head.ref, 'claude/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Claude 리뷰어
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --max-turns 25
+            --allowedTools "Read,Glob,Grep,LS,Bash"
+          prompt: |
+            너는 아미코진스 사이트 저장소의 PR 리뷰어다. 한국어로 리뷰한다.
+
+            ## 볼 것 (이 5가지만)
+            1. 이슈가 요구한 것을 실제로 했는가 — PR 본문의 "바꾼 것" 과 diff 가 일치하는가
+            2. 금지 목록을 어겼는가 — CLAUDE.md 의 금지 목록 대조
+            3. node scripts/gate.mjs 가 통과하는가 (직접 1회 실행)
+            4. 티어 선언이 변경 내용과 맞는가 (하향 신고는 결함이다)
+            5. 미완·미검증 항목을 숨겼는가
+
+            ## 하지 않을 것
+            - 코드를 고치지 않는다. 리뷰어는 읽고 판정만 한다.
+            - 취향 지적을 하지 않는다. 위 5가지에 없는 것은 넘어간다.
+            - 재검은 2회까지. 3회째부터는 needs-hub 를 달고 사람에게 넘긴다.
+
+            ## 결과
+            gh pr comment 로 리뷰를 남긴다. 코멘트 첫 줄에 반드시 다음 표식을 넣는다.
+            <!-- agent-review -->
+            그 다음 줄에 판정을 한 줄로 적는다.
+            - 통과면: "## ✅ 자동 리뷰 — 통과"
+            - 결함이 있으면: "## ❌ 자동 리뷰 — 수정 필요" 그리고 @claude 로 워커를 불러 지적한다.
+            결함이 있으면 gh pr edit <번호> --add-label needs-fix 를 단다.
+
+  automerge:
+    needs: review
+    if: always() && needs.review.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+    steps:
+      - name: 자동 머지 판정 (조건 5종 전원 충족)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          J=$(gh pr view "$PR" --repo "$REPO" --json isDraft,labels,headRefName,mergeable,statusCheckRollup)
+
+          # ① draft 가 아니다
+          [ "$(echo "$J" | jq -r .isDraft)" = "false" ] || { echo "draft — 머지 안 함"; exit 0; }
+
+          # ② needs-hub / needs-fix 라벨이 없다
+          BLOCK=$(echo "$J" | jq -r '[.labels[].name] | map(select(. == "needs-hub" or . == "needs-fix")) | length')
+          [ "$BLOCK" = "0" ] || { echo "차단 라벨 있음 — 머지 안 함"; exit 0; }
+
+          # ③ 워커가 만든 브랜치다
+          case "$(echo "$J" | jq -r .headRefName)" in claude/*) ;; *) echo "워커 브랜치 아님 — 머지 안 함"; exit 0;; esac
+
+          # ④ 충돌이 없다
+          [ "$(echo "$J" | jq -r .mergeable)" = "MERGEABLE" ] || { echo "머지 불가 상태 — 머지 안 함"; exit 0; }
+
+          # ⑤ 게이트가 성공했다
+          GATE=$(echo "$J" | jq -r '[.statusCheckRollup[]? | select(.name == "gate")] | .[0].conclusion // "MISSING"')
+          [ "$GATE" = "SUCCESS" ] || { echo "게이트 미통과($GATE) — 머지 안 함"; exit 0; }
+
+          gh pr merge "$PR" --repo "$REPO" --squash --delete-branch
+          echo "PR #$PR 머지 완료 — main push = Pages 배포"
