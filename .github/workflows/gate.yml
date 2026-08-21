@@ -1,0 +1,25 @@
+name: 게이트
+
+# AMILOOM — 아미코 사이트 필수 체크
+# 이 저장소는 빌드가 없는 정적 HTML이다. 타입체크·번들 대신
+# 인라인 스크립트 문법 · 내부 링크 · 금지 문구 세 가지를 검사한다.
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: 정적 검사
+        run: node scripts/gate.mjs
