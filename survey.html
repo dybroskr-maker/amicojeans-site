@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMICO JEANS 시안 설문 — 남상백 대표님</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--ink:#14161A;--paper:#F7F5F1;--selvedge:#B7332B;--line:rgba(20,22,26,.14);--mute:#6E7278;
+--disp:'Archivo',sans-serif;--body:'Pretendard',-apple-system,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--selvedge);outline-offset:2px}
+.top{position:sticky;top:0;background:rgba(247,245,241,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+.top .in{max-width:640px;margin:0 auto;padding:14px 20px 0}
+.top .lg{font-family:var(--disp);font-size:13px;letter-spacing:.22em;font-weight:600}
+.top .st{font-size:11.5px;color:var(--mute);margin-top:2px}
+.pbar{height:2px;background:var(--line);margin-top:12px}
+.pbar i{display:block;height:100%;background:var(--selvedge);width:0;transition:width .35s}
+main{max-width:640px;margin:0 auto;padding:26px 20px 120px}
+.sec{font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;color:var(--selvedge);text-transform:uppercase;margin:34px 0 14px;padding-top:20px;border-top:1px solid var(--line)}
+.sec:first-of-type{border-top:0;margin-top:6px;padding-top:0}
+.q{margin-bottom:26px}
+.q .n{font-family:var(--disp);font-size:11px;letter-spacing:.1em;color:var(--mute)}
+.q h3{font-size:16.5px;font-weight:600;margin:3px 0 3px;line-height:1.45}
+.q .why{font-size:12.5px;color:var(--mute);margin-bottom:11px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;border:1px solid var(--line);background:#fff;padding:12px 14px;font-size:14px;display:flex;gap:10px;align-items:flex-start;border-radius:2px;transition:border-color .15s}
+.opt:hover{border-color:var(--ink)}
+.opt .k{font-family:var(--disp);font-size:11px;color:var(--mute);padding-top:2px;flex:none;width:14px}
+.opt.on{border-color:var(--ink);background:var(--ink);color:var(--paper);border-width:1px}
+.opt.on .k{color:rgba(247,245,241,.6)}
+textarea{width:100%;border:1px solid var(--line);background:#fff;padding:12px;font:inherit;font-size:14.5px;min-height:92px;resize:vertical;border-radius:2px}
+.intro{border-left:3px solid var(--selvedge);padding:2px 0 2px 14px;margin-bottom:8px}
+.intro p{font-size:14px;color:var(--mute);margin-top:6px}
+.foot{position:fixed;left:0;right:0;bottom:0;background:rgba(247,245,241,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 20px calc(12px + env(safe-area-inset-bottom));z-index:20}
+.foot .in{max-width:640px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.foot .cnt{font-size:12.5px;color:var(--mute);flex:1}
+.foot button{background:var(--ink);color:var(--paper);padding:13px 20px;font-size:14px;border-radius:2px}
+.foot button.ghost{background:none;color:var(--mute);border:1px solid var(--line);padding:13px 14px}
+#dlg{position:fixed;inset:0;background:rgba(20,22,26,.55);z-index:40;display:none;align-items:center;justify-content:center;padding:20px}
+#dlg.open{display:flex}
+#dlg .box{background:var(--paper);padding:20px;width:min(520px,100%);border-top:3px solid var(--selvedge);max-height:82vh;overflow:auto}
+#dlg h4{font-size:16px;margin-bottom:6px}
+#dlg small{color:var(--mute);font-size:12.5px}
+#dlg textarea{min-height:220px;margin-top:12px;font-size:12.5px;line-height:1.5}
+#dlg .btns{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+#dlg .btns button{border:1px solid var(--ink);padding:10px 16px;font-size:13.5px}
+#dlg .btns .go{background:var(--ink);color:var(--paper)}
+#toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:11px 18px;font-size:13px;z-index:50;opacity:0;pointer-events:none;transition:opacity .3s;max-width:90vw;text-align:center}
+#toast.on{opacity:1}
+</style>
+
+<div class="top"><div class="in">
+<div class="lg">AMICO JEANS</div>
+<div class="st">홈페이지 시안 v0.2 — 대표님 확인 설문</div>
+<div class="pbar"><i id="pb"></i></div>
+</div></div>
+
+<main>
+<div class="intro">
+<h3 style="font-size:17px">먼저 시안을 한 번 보고 오세요</h3>
+<p><a href="./" style="color:var(--selvedge);text-decoration:underline">시안 열기 →</a> 보신 뒤 아래 질문에 답해 주시면, 답하신 대로 다음 버전을 만듭니다. 고르기만 하면 되고 3~4분이면 끝납니다.</p>
+</div>
+<div id="form"></div>
+</main>
+
+<div class="foot"><div class="in">
+<span class="cnt" id="cnt">0 / 17</span>
+<button class="ghost" onclick="reset()">지우기</button>
+<button onclick="send()">답변 보내기</button>
+</div></div>
+
+<div id="dlg"><div class="box" id="box"></div></div>
+<div id="toast"></div>
+
+<script>
+const Q=[
+{s:'첫인상 · 톤'},
+{id:'tone',q:'시안의 전체 분위기가 아미코와 맞습니까?',why:'맞다고 하시면 이 톤으로 끝까지 갑니다.',o:['지금 이 톤이 맞다','더 고급스럽고 정제되게','더 굵고 힘있게','아예 다시 잡자']},
+{id:'color',q:'무채색 기조를 유지할까요?',why:'붉은 선은 데님 셀비지(원단 가장자리 적사)에서 가져온 아미코 표식입니다.',o:['지금대로 무채색 + 붉은 선','인디고(청색)를 더 쓰자','붉은 선을 빼자','다른 색을 쓰고 싶다']},
+{id:'ref',q:'MOD9와 비교하면 어느 쪽으로 갈까요?',why:'레퍼런스와의 거리를 정합니다.',o:['MOD9보다 더 비우고 싶다','지금 정도가 적당하다','사진을 더 크고 강하게','MOD9와 비슷하게 맞추자']},
+
+{s:'무엇을 앞세울까'},
+{id:'claim',q:'첫 화면에서 내세울 강점 하나를 고른다면?',why:'헤드라인 문장이 여기서 정해집니다.',o:['데님 한 종목만 한다','한국·중국 직영 생산 관리','대표의 이탈리아 이력','브랜드 빌딩까지 함께한다']},
+{id:'hero',q:'첫 화면 사진은 무엇으로 갈까요?',why:'촬영 목록의 1순위가 됩니다.',o:['워싱 원단 클로즈업','구파발 쇼룸 전경','제품 착용컷','작업·재봉 현장']},
+{id:'menu',q:'메뉴 3개(컬렉션·프로젝트·브랜드)로 충분합니까?',why:'지금 늘리는 편이 나중보다 쌉니다.',o:['이 3개면 충분하다','생산 공정 소개를 넣자','문의·견적 메뉴를 넣자','회사 연혁을 넣자']},
+
+{s:'컬렉션 · 핏'},
+{id:'colopen',q:'수주한 상품을 어디까지 공개할까요?',why:'거래처 기밀과 홍보 사이 선을 정합니다.',o:['전체 공개','대표 스타일 몇 개만 공개','로그인한 거래처에게만','거래처 동의 받은 것만']},
+{id:'colinfo',q:'상품에 어떤 정보까지 적을까요?',why:'적을수록 안전하고, 많을수록 설득력이 있습니다.',o:['스타일명·사진만','원단 중량·워싱까지','사이즈 스펙까지','생산 거래처명까지']},
+{id:'fit',q:'핏 가이드는 누구에게 보일까요?',why:'신규 영업 도구로 쓸지, 거래처 전용으로 둘지입니다.',o:['누구나 볼 수 있게','로그인한 거래처만','지금은 빼고 나중에','공개하되 치수는 감춘다']},
+{id:'fitn',q:'기본 핏 5종(와이드·스트레이트·세미부츠컷·테이퍼드·슬림)이 맞습니까?',why:'아미코의 핏 라이브러리 기준선이 됩니다.',o:['이 5종이 맞다','더 있다 (아래 적겠다)','5종은 많다, 줄이자','이름을 바꿔야 한다']},
+
+{s:'공개 범위'},
+{id:'store',q:'구파발 쇼룸 주소를 어디까지 적을까요?',why:'예약제 운영과 맞물립니다.',o:['전체 주소 공개','동네까지만','예약한 분께만 알림','아직 적지 말자']},
+{id:'china',q:'중국 사무소는 어떻게 표기할까요?',why:'거래처가 가장 많이 묻는 항목입니다.',o:['도시명까지 공개','중국이라고만','생산 지역 범위만','표기하지 않는다']},
+{id:'ceo',q:'대표님 이력은 어디까지 쓸까요?',why:'이탈리아 이력은 강한 신뢰 자산입니다.',o:['학교명·연도까지 쓴다','이탈리아 수학 정도만','이름과 직함만','인물 소개를 빼자']},
+
+{s:'거래처룸 (엑셀 대체)'},
+{id:'stage',q:'오더 진행을 4단계(샘플→확정→생산→출고)로 보는 게 실무와 맞습니까?',why:'여기가 전체 시스템의 뼈대입니다.',o:['4단계면 맞다','단계를 더 나눠야 한다','이름을 바꿔야 한다','다른 방식으로 보고 싶다']},
+{id:'clientinfo',q:'거래처에게 어디까지 보여줄까요?',why:'원가·공장명은 기본적으로 감춥니다.',o:['진행 상태만','+ 진행 사진','+ 납기 일정','+ 수량·단가까지']},
+{id:'first',q:'먼저 시범 적용할 거래처는 몇 곳으로 할까요?',why:'한 곳에서 「카톡보다 편하다」가 확인되면 나머지는 쉽습니다.',o:['가장 편한 1곳','2~3곳','전 거래처 한 번에','아직 결정 못 하겠다']},
+
+{s:'일정 · 운영'},
+{id:'lang',q:'언어는 어떻게 할까요?',why:'영문·중문은 나중에 붙이면 비용이 더 듭니다.',o:['한국어만','한국어 + 영문','한국어 + 영문 + 중문','영문을 우선으로']},
+{id:'open',q:'언제까지 열고 싶으십니까?',why:'9월 수주회가 가장 가까운 기점입니다.',o:['9월 수주회 전에','수주회 기간에 맞춰','수주회 끝난 뒤','급하지 않다']},
+{id:'photo',q:'사진 촬영은 언제 가능합니까?',why:'사진만 오면 시안의 파란 블록이 전부 채워집니다.',o:['1주 안에 가능','2~3주 뒤','수주회 준비하며 함께','이미 찍어둔 사진이 있다']},
+
+{s:'하고 싶은 말'},
+{id:'good',q:'시안에서 가장 마음에 든 부분은?',t:1,ph:'예: 첫 화면이 데님 느낌이라 좋다'},
+{id:'fix',q:'꼭 고쳤으면 하는 부분은?',t:1,ph:'예: 글씨가 작다 / 컬렉션이 더 위로 올라왔으면'}
+];
+const KEY='amico_survey_v1';
+let A=JSON.parse(localStorage.getItem(KEY)||'{}');
+const total=Q.filter(q=>q.id).length;
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const toast=t=>{const e=document.getElementById('toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2400)};
+const save=()=>{localStorage.setItem(KEY,JSON.stringify(A));count()};
+let n=0;
+document.getElementById('form').innerHTML=Q.map(q=>{
+  if(q.s) return `<div class="sec">${q.s}</div>`;
+  n++;
+  if(q.t) return `<div class="q"><div class="n">Q${n}</div><h3>${q.q}</h3>
+    <textarea data-id="${q.id}" placeholder="${q.ph||''}">${esc(A[q.id]||'')}</textarea></div>`;
+  return `<div class="q"><div class="n">Q${n}</div><h3>${q.q}</h3><p class="why">${q.why}</p>
+    <div class="opts">${q.o.map((o,i)=>
+      `<button class="opt${A[q.id]===o?' on':''}" data-id="${q.id}" data-v="${esc(o)}"><span class="k">${'ABCD'[i]}</span><span>${o}</span></button>`
+    ).join('')}</div></div>`;
+}).join('');
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.opt'); if(!b) return;
+  A[b.dataset.id]=b.dataset.v;
+  b.parentElement.querySelectorAll('.opt').forEach(x=>x.classList.toggle('on',x===b));
+  save();
+});
+document.addEventListener('input',e=>{
+  if(e.target.tagName!=='TEXTAREA'||!e.target.dataset.id) return;
+  A[e.target.dataset.id]=e.target.value.trim(); save();
+});
+function count(){
+  const done=Q.filter(q=>q.id&&A[q.id]).length;
+  document.getElementById('cnt').textContent=done+' / '+total;
+  document.getElementById('pb').style.width=(done/total*100)+'%';
+}
+count();
+
+function text(){
+  let out='[아미코진스 홈페이지 시안 v0.2 — 대표 설문 답변]\n';
+  let i=0;
+  Q.forEach(q=>{
+    if(q.s){out+='\n■ '+q.s+'\n';return}
+    i++; if(!A[q.id]) {out+=`Q${i}. ${q.q}\n   → (미답)\n`; return}
+    out+=`Q${i}. ${q.q}\n   → ${A[q.id]}\n`;
+  });
+  return out+'\n#SURVEY'+btoa(unescape(encodeURIComponent(JSON.stringify(A))));
+}
+async function send(){
+  const done=Q.filter(q=>q.id&&A[q.id]).length;
+  if(!done){toast('아직 답하신 항목이 없습니다');return}
+  const t=text();
+  if(navigator.share){try{await navigator.share({text:t});return}catch(e){}}
+  try{await navigator.clipboard.writeText(t);toast('답변을 복사했습니다 — 카톡에 붙여넣어 보내세요')}
+  catch(e){
+    document.getElementById('box').innerHTML='<h4>아래 내용을 복사해 보내 주세요</h4><small>전체 선택 후 복사</small><textarea id="tx">'+esc(t)+'</textarea><div class="btns"><button class="go" onclick="closeDlg()">닫기</button></div>';
+    document.getElementById('dlg').classList.add('open');
+    setTimeout(()=>{const a=document.getElementById('tx');a.focus();a.select()},100);
+  }
+}
+function closeDlg(){document.getElementById('dlg').classList.remove('open')}
+function reset(){
+  document.getElementById('box').innerHTML='<h4>답변을 모두 지울까요?</h4><small>되돌릴 수 없습니다.</small><div class="btns"><button onclick="closeDlg()">취소</button><button class="go" onclick="A={};save();location.reload()">지우기</button></div>';
+  document.getElementById('dlg').classList.add('open');
+}
+document.getElementById('dlg').onclick=e=>{if(e.target.id==='dlg')closeDlg()};
+</script>
+</html>
