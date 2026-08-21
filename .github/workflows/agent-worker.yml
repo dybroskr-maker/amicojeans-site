@@ -1,0 +1,165 @@
+name: 에이전트 워커
+
+# AMILOOM — 아미코 사이트 워커 (이슈 → 구현 → PR)
+# 이슈에 auto-t0 / auto-t1 라벨을 붙이면 워커가 구현하고 PR을 연다.
+# 이슈·PR 코멘트의 @claude 로 후속 수정을 지시할 수 있다.
+# 사람 게이트는 PR 머지 1곳뿐이다 — main push = GitHub Pages 배포이므로
+# 머지가 곧 배포 승인이다. 워커는 절대 main에 직접 push하지 않는다.
+#
+# ⚠ on.issues 에 opened 를 추가하지 말 것 — 생성 시 붙인 라벨도 labeled 를 쏘므로
+#   같은 이슈로 워커가 두 번 돌고 브랜치·PR이 두 개 생긴다.
+
+on:
+  issues:
+    types: [labeled]
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+permissions: {}
+
+concurrency:
+  group: agent-worker-${{ github.event.issue.number || github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  worker:
+    if: >-
+      (github.event_name == 'issues' &&
+        (github.event.label.name == 'auto-t0' || github.event.label.name == 'auto-t1')) ||
+      ((github.event_name == 'issue_comment' || github.event_name == 'pull_request_review_comment') &&
+        contains(github.event.comment.body, '@claude') &&
+        (github.event.comment.user.type != 'Bot' ||
+         contains(github.event.comment.body, '<!-- agent-review -->')))
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Claude 워커
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: true
+          allowed_bots: "claude,claude[bot]"
+          claude_args: |
+            --max-turns 50
+            --allowedTools "Read,Glob,Grep,LS,Edit,Write,MultiEdit,Bash,mcp__github_comment__update_claude_comment"
+          prompt: |
+            너는 아미코진스 사이트 저장소의 자동 구현 워커다. 한국어로 보고한다.
+
+            ## 과업
+            트리거가 된 이슈(또는 코멘트)의 내용을 그대로 과업으로 삼아 구현한다.
+            PR 코멘트로 불려 왔다면 리뷰어가 지적한 결함을 그 PR 브랜치에 후속 커밋으로 고친다.
+
+            ## 먼저 읽을 것
+            저장소 루트의 CLAUDE.md 와 AGENTS.md 가 이 저장소의 규칙이다. 반드시 따른다.
+            이 저장소는 빌드가 없는 정적 사이트다 — index.html 한 파일이 공개 사이트 전부다.
+            다른 저장소의 파일·경로·규칙을 참조하거나 인용하지 않는다.
+
+            ## 절대 하지 않는 것 (하나라도 필요하면 즉시 중단)
+            - main 에 직접 push. 반드시 새 브랜치 + PR 이다.
+            - .github/workflows/** 수정, 시크릿·환경변수 생성·수정.
+            - survey.html 수정 (답변 회수 완료, 원본 보존).
+            - 셀비지 세로선 시그니처 제거·색 변경, 핀 코멘트 리뷰 기능 제거.
+            - 무채색 + 붉은 선 기조 변경 (대표 확정 사항).
+            - 외부 CDN 추가 (현재 서체 2종 외).
+            - 대외 공개 정보 임의 변경: 사무실 주소·대표 이력·중국 사무소 표기·거래처명·단가.
+            - 강제 push, 브랜치·태그 삭제, 파일 대량 삭제.
+
+            ## T2 감지 시 행동
+            과업이 위 목록에 해당하거나 구현하려면 손댈 수밖에 없다면
+            코드를 한 줄도 고치지 말고 아래를 하고 끝낸다.
+            1. 이슈/PR 코멘트: 제목 "## ⛔ T2 — 수동 배치 필요", 왜 T2 인지와 어느 파일·규칙에 걸리는지.
+            2. gh issue edit <번호> --add-label needs-hub --remove-label auto-t0 --remove-label auto-t1
+            3. 종료. 부분 구현도 남기지 않는다.
+
+            ## 검증 — 위험도 차등 (무제한 검증 금지)
+            티어를 한 줄로 선언하고 그만큼만 검증한다. 상향은 자유, 하향은 금지.
+            - T0 (문서·주석): 게이트 생략. 사실 주장에는 근거 1개.
+            - T1 (화면·스타일·i18n): node scripts/gate.mjs 를 1회만 돌린다.
+              실패하면 고치고 재검 1회까지. 2회째도 실패하면 PR 본문에 출력을 붙이고 needs-hub 를 단다.
+            - T2: 위 "T2 감지 시 행동" 으로 간다. 여기서 검증하지 않는다.
+
+            ## 결과 만들기
+            1. git switch -c claude/issue-<번호>-<짧은영문슬러그>
+            2. 커밋 메시지: feat(범위): 요지 / fix(...) / docs(...), 본문 한국어.
+               확인되지 않은 것을 대표 지시로 승격시키지 않는다.
+            3. 브랜치 push 후 PR 을 반드시 직접 연다 — 액션은 PR 을 자동으로 만들어 주지 않는다.
+               gh pr create --base main --head <브랜치> --title "..." --body "..."
+               gh 가 실패하면 브랜치는 push 한 채로 compare 링크를 이슈에 코멘트하고 needs-hub 를 단다.
+            4. PR 본문에 반드시 담을 것:
+               - 첫 줄에 Closes #<이슈번호>
+               - 티어 선언 한 줄
+               - 바꾼 것 / 안 바꾼 것
+               - 검증 결과 (안 돌린 것은 "미검증: 사유")
+               - 미완 항목 (있으면 숨기지 말 것)
+
+            ## 보고 원칙
+            실패·미완성을 숨기지 않는다. "이럴 것 같다" 를 쓰지 않는다.
+            확인 못 한 것은 "미검증" 이라고 적는다. 판정당 핵심 증거 1개면 충분하다.
+
+      - name: T2 사후 차단 (변경 파일 기준)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          NUM: ${{ github.event.issue.number || github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          git fetch origin --prune --quiet || true
+          BR=$(git for-each-ref --format="%(refname:short)" --sort=-committerdate \
+                 "refs/remotes/origin/claude/issue-${NUM}-*" | head -1)
+          if [ -z "$BR" ]; then echo "워커 브랜치 없음 — 판정 대상 없음"; exit 0; fi
+          echo "판정 대상 브랜치: $BR"
+
+          FILES=$(git diff --name-only "origin/main...$BR" || true)
+          if [ -z "$FILES" ]; then echo "변경 파일 없음"; exit 0; fi
+          printf "변경 파일:\n%s\n" "$FILES"
+
+          PATHPAT="^\.github/workflows/|^supabase/|^scripts/|^\.env|^survey\.html$"
+          HITF=$(printf "%s\n" "$FILES" | grep -E "$PATHPAT" || true)
+
+          SENSPAT="사업자등록번호|단가|원가|이탈리아 패션 스쿨|현대프리미어캠퍼스"
+          HITL=$(git diff "origin/main...$BR" -- . ":(exclude)*.md" \
+                 | grep -E "^[+-]" | grep -vE "^(\+\+\+|---)" \
+                 | grep -oE "$SENSPAT" | sort -u | tr "\n" " " || true)
+
+          if [ -z "$HITF" ] && [ -z "$HITL" ]; then echo "T2 아님 — 통과"; exit 0; fi
+
+          {
+            echo "## ⛔ T2 — 수동 배치 필요 (변경 파일 기준)"
+            echo
+            echo "워커가 만든 변경이 T2 영역에 실제로 손댔다. 머지 경로에서 빼 뒀다."
+            echo
+            if [ -n "$HITF" ]; then echo "- 걸린 파일:"; echo "\`\`\`"; echo "$HITF"; echo "\`\`\`"; fi
+            if [ -n "$HITL" ]; then echo "- 바뀐 줄에서 걸린 표현: \`${HITL}\`"; fi
+            echo "- 근거: CLAUDE.md T2 판정표"
+            echo "- 브랜치 \`$BR\` 는 지우지 않았다. 사람 세션이 이어받으면 된다."
+          } > /tmp/t2body.md
+
+          gh issue edit "$NUM" --repo "$REPO" --add-label needs-hub \
+            --remove-label auto-t0 --remove-label auto-t1 || true
+          gh issue comment "$NUM" --repo "$REPO" --body-file /tmp/t2body.md || true
+
+          PR=$(gh pr list --repo "$REPO" --head "${BR#origin/}" --json number -q ".[0].number" || true)
+          if [ -n "$PR" ]; then
+            gh pr ready "$PR" --repo "$REPO" --undo || true
+            gh pr comment "$PR" --repo "$REPO" --body-file /tmp/t2body.md || true
+            echo "PR #$PR 을 draft 로 내렸다"
+          fi
+          echo "::warning::T2 — 변경 파일 기준으로 차단했다"
