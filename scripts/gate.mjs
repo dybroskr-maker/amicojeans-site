@@ -28,6 +28,10 @@ const SKIP = [
   /docs\/전체구성_셋업절차/,       // 이름 분리 규칙에서 타 저장소 명칭을 대조한다
 ];
 
+// 금지어를 「정정 기록」으로 인용하는 문구 — 규칙을 어긴 게 아니라 지킨 것을 적은 문장이다.
+// 파일 전체를 SKIP 에 넣으면 그 파일의 다른 위반까지 놓치므로 문구 단위로만 뺀다.
+const ALLOW = ['구파발이 아니다'];
+
 function walk(dir, out = []) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     if (e.name === '.git' || e.name === 'node_modules') continue;
@@ -73,7 +77,8 @@ for (const f of htmls) {
 // ③ 금지 문구
 for (const f of texts) {
   if (SKIP.some((re) => re.test(f))) continue;
-  const src = readFileSync(f, 'utf8');
+  let src = readFileSync(f, 'utf8');
+  for (const a of ALLOW) src = src.split(a).join('');
   for (const [word, why] of BANNED) {
     if (src.includes(word)) fails.push(`금지 문구 "${word}" — ${f} (${why})`);
   }
