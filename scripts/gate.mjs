@@ -18,6 +18,16 @@ const BANNED = [
   ['DYLOOM', '다른 저장소의 자동화 명칭 — 이 저장소는 AMILOOM'],
 ];
 
+// 금지어를 「규칙으로서」 적어야 하는 파일과, 원본을 보존하는 파일은 검사 대상에서 뺀다.
+// 이 목록에 없는 곳에서 금지어가 나오면 실패한다 — 실제 산출물(index.html 등) 검출은 그대로다.
+const SKIP = [
+  /scripts\/gate\.mjs$/,          // 이 스크립트 자신 (금지어 정의부)
+  /(^|\/)CLAUDE\.md$/,            // 전역 금지 목록에 금지어를 나열한다
+  /(^|\/)survey\.html$/,          // 대표 설문 원본 — 수정 금지
+  /docs\/코드세션_배치지시/,       // 배치 지시 — 금지어를 지시문으로 인용한다
+  /docs\/전체구성_셋업절차/,       // 이름 분리 규칙에서 타 저장소 명칭을 대조한다
+];
+
 function walk(dir, out = []) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     if (e.name === '.git' || e.name === 'node_modules') continue;
@@ -60,10 +70,9 @@ for (const f of htmls) {
   }
 }
 
-// ③ 금지 문구 (이 스크립트 자신과 배치 지시 문서는 제외)
-const SKIP = /scripts\/gate\.mjs$|docs\/코드세션_배치지시|docs\/전체구성_셋업절차/;
+// ③ 금지 문구
 for (const f of texts) {
-  if (SKIP.test(f)) continue;
+  if (SKIP.some((re) => re.test(f))) continue;
   const src = readFileSync(f, 'utf8');
   for (const [word, why] of BANNED) {
     if (src.includes(word)) fails.push(`금지 문구 "${word}" — ${f} (${why})`);
