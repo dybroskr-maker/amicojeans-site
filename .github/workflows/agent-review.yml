@@ -1,28 +1,43 @@
 name: 에이전트 리뷰어
 
 # AMILOOM — PR 검증 + 자동 머지
-# 워커가 연 PR 을 읽고 리뷰를 남긴 뒤, 조건 5종을 전부 충족하면 머지한다.
+# 워커가 연 PR 을 읽고 리뷰를 남긴 뒤, 조건을 전부 충족하면 머지한다.
 # 자동 머지 조건은 이 파일의 automerge 잡 한 곳에서만 정의한다.
+#
+# 2026-08-22 수리 (이슈 #8 — 리뷰어 본단계 25~31초 실패):
+#   본가(dybros-app)에서 실측으로 확정된 함정이 이식 때 빠져 있던 것을 복원한다.
+#   ① allowed_bots 누락 — 워커 봇(claude[bot])이 연 PR 에서 액션이
+#      「Workflow initiated by non-human actor」로 본단계를 즉시 거부 (dybros-app 실측 run 32085675112)
+#   ② 리뷰 게시를 Bash 의 gh 에 의존 — 액션 기본 Bash 허용목록이 gh 를 차단한다.
+#      게시는 액션 내장 MCP 코멘트 도구로 한다 (dybros-app 방식)
+#   ③ actions: read 권한 누락
+#   ④ 실패가 로그 안에만 남아 채팅세션이 읽을 수 없던 것 → 실패 시 PR 코멘트로 사유·링크를 밀어낸다
 #
 # 리뷰어 토큰(CLAUDE_CODE_OAUTH_TOKEN)이 없을 때:
 #   review 잡을 실패시키지 않는다. 리뷰 단계만 건너뛰고 needs-hub 라벨을 달아
 #   사람 검수로 넘긴다. automerge 는 조건 ② 에서 그 라벨을 보고 스스로 멈춘다.
-#   토큰이 없다고 PR 을 영구 빨간불로 두면 다른 검증 결과를 읽을 수 없다.
 
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review]
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "리뷰할 PR 번호 (자동 트리거가 안 걸렸을 때 수동 호출)"
+        required: true
 
 permissions: {}
 
 concurrency:
-  group: agent-review-${{ github.event.pull_request.number }}
+  group: agent-review-${{ github.event.pull_request.number || inputs.pr }}
   cancel-in-progress: true
 
 jobs:
   review:
-    if: startsWith(github.event.pull_request.head.ref, 'claude/')
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      startsWith(github.event.pull_request.head.ref, 'claude/')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -30,6 +45,7 @@ jobs:
       issues: write
       pull-requests: write
       id-token: write
+      actions: read
     steps:
       - name: 리뷰어 토큰 유무 판정
         id: token
@@ -60,38 +76,51 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: true
+          use_sticky_comment: false
+          # ⚠ 필수 — 워커 봇(claude[bot])이 연 PR 에서 이게 없으면 액션이
+          #   「non-human actor」로 본단계를 거부한다. `*` 로 열지 않는다.
+          allowed_bots: "claude,claude[bot]"
+          # 리뷰어는 읽고 판정만 한다 — Edit·Write 없음. 게시는 MCP 코멘트 도구.
           claude_args: |
             --max-turns 25
-            --allowedTools "Read,Glob,Grep,LS,Bash"
+            --allowedTools "Read,Glob,Grep,LS,Bash,mcp__github_comment__update_claude_comment,mcp__github_inline_comment__create_inline_comment"
           prompt: |
             너는 아미코진스 사이트 저장소의 PR 리뷰어다. 한국어로 리뷰한다.
 
             ## 볼 것 (이 5가지만)
             1. 이슈가 요구한 것을 실제로 했는가 — PR 본문의 "바꾼 것" 과 diff 가 일치하는가
+               (git diff origin/main...HEAD 로 변경분 전체를 읽는다)
             2. 금지 목록을 어겼는가 — CLAUDE.md 의 금지 목록 대조
-            3. node scripts/gate.mjs 가 통과하는가 (직접 1회 실행)
+            3. node scripts/gate.mjs 가 통과하는가 (의존성 없음 — 직접 1회 실행)
             4. 티어 선언이 변경 내용과 맞는가 (하향 신고는 결함이다)
             5. 미완·미검증 항목을 숨겼는가
 
             ## 하지 않을 것
             - 코드를 고치지 않는다. 리뷰어는 읽고 판정만 한다.
             - 취향 지적을 하지 않는다. 위 5가지에 없는 것은 넘어간다.
-            - 재검은 2회까지. 3회째부터는 needs-hub 를 달고 사람에게 넘긴다.
+            - Bash 의 gh 명령을 쓰지 않는다 — 허용목록이 막는다. 게시는 아래 MCP 도구로만.
 
-            ## 결과
-            gh pr comment 로 리뷰를 남긴다. 코멘트 첫 줄에 반드시 다음 표식을 넣는다.
-            <!-- agent-review -->
-            그 다음 줄에 판정을 한 줄로 적는다.
-            - 통과면: "## ✅ 자동 리뷰 — 통과"
-            - 결함이 있으면: "## ❌ 자동 리뷰 — 수정 필요" 그리고 @claude 로 워커를 불러 지적한다.
-            결함이 있으면 gh pr edit <번호> --add-label needs-fix 를 단다.
+            ## 결과를 어떻게 내는가
+            - 결함이 있으면 해당 파일·줄에 인라인 코멘트로 단다
+              (mcp__github_inline_comment__create_inline_comment). 한 결함에 한 코멘트.
+              형식: [심각도] 현상 / 원인 / 왜 문제인가 / 고치는 법
+            - 요약은 mcp__github_comment__update_claude_comment 로 남긴다.
+              본문 첫 줄은 반드시 <!-- agent-review --> 로 시작한다(빼먹지 마라 —
+              automerge 가 이 표식으로 판정을 읽는다).
+              그 다음 줄 판정:
+              · 통과면 "## ✅ 자동 리뷰 — 통과"
+              · 결함이 있으면 "## ❌ 자동 리뷰 — 수정 필요" 그리고 맨 끝에
+                "@claude 위 결함을 이 브랜치에 후속 커밋으로 고쳐라." 한 줄을 넣는다
+                (결함이 없으면 그 줄을 넣지 않는다 — 워커가 헛돈다).
+            - 머지하지 마라. 머지는 automerge 잡과 채팅세션의 몫이다.
 
       - name: 토큰 없음 — needs-hub 로 사람 검수 이관
         if: steps.token.outputs.present != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
-          PR: ${{ github.event.pull_request.number }}
+          PR: ${{ github.event.pull_request.number || inputs.pr }}
         run: |
           set -euo pipefail
           gh label create needs-hub --repo "$REPO" --color BFD4F2 --description "사람 검수 필요" 2>/dev/null || true
@@ -106,6 +135,30 @@ jobs:
           시크릿을 등록한 뒤 커밋을 다시 올리면 자동 리뷰가 붙는다.'
           fi
 
+      # 실패를 로그에 묻지 않는다 — 채팅세션은 Actions 로그를 못 읽는다(커넥터 403 실측).
+      # 어느 스텝이 무슨 결론으로 끝났는지를 PR 코멘트로 밀어내 채팅이 즉시 읽게 한다.
+      - name: 실패 보고 — PR 코멘트로 밀어내기
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number || inputs.pr }}
+          RUN: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          STEPS=$(gh api "/repos/$REPO/actions/runs/$RUN/jobs" \
+            --jq '[.jobs[] | select(.name=="review") | .steps[] | "\(.name) → \(.conclusion // .status)"] | join("\n")' \
+            2>/dev/null || echo "스텝 조회 실패")
+          gh pr comment "$PR" --repo "$REPO" --body "$(printf '%s\n' \
+            '<!-- agent-review-error -->' \
+            '## ⛔ 자동 리뷰 실패 — 스텝 결론' \
+            '' \
+            '\`\`\`' \
+            "$STEPS" \
+            '\`\`\`' \
+            '' \
+            "실행: https://github.com/$REPO/actions/runs/$RUN")" || true
+
   automerge:
     needs: review
     if: always() && needs.review.result == 'success'
@@ -116,14 +169,14 @@ jobs:
       pull-requests: write
       checks: read
     steps:
-      - name: 자동 머지 판정 (조건 5종 전원 충족)
+      - name: 자동 머지 판정 (조건 6종 전원 충족)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
-          PR: ${{ github.event.pull_request.number }}
+          PR: ${{ github.event.pull_request.number || inputs.pr }}
         run: |
           set -euo pipefail
-          J=$(gh pr view "$PR" --repo "$REPO" --json isDraft,labels,headRefName,mergeable,statusCheckRollup)
+          J=$(gh pr view "$PR" --repo "$REPO" --json isDraft,labels,headRefName,mergeable,statusCheckRollup,comments)
 
           # ① draft 가 아니다
           [ "$(echo "$J" | jq -r .isDraft)" = "false" ] || { echo "draft — 머지 안 함"; exit 0; }
@@ -141,6 +194,13 @@ jobs:
           # ⑤ 게이트가 성공했다
           GATE=$(echo "$J" | jq -r '[.statusCheckRollup[]? | select(.name == "gate")] | .[0].conclusion // "MISSING"')
           [ "$GATE" = "SUCCESS" ] || { echo "게이트 미통과($GATE) — 머지 안 함"; exit 0; }
+
+          # ⑥ 리뷰어가 실제로 「통과」 판정을 남겼다 — 잡 success 를 판정으로 오인하지 않는다
+          #    (무동작 success 함정 · dybros-app 실측). 표식 + ✅ 통과 제목을 함께 본다.
+          PASS=$(echo "$J" | jq -r '[.comments[].body
+                   | select(contains("<!-- agent-review -->")) | select(contains("✅"))
+                   | select(contains("통과"))] | length')
+          [ "$PASS" != "0" ] || { echo "리뷰어 통과 판정 코멘트 없음 — 머지 안 함"; exit 0; }
 
           gh pr merge "$PR" --repo "$REPO" --squash --delete-branch
           echo "PR #$PR 머지 완료 — main push = Pages 배포"
