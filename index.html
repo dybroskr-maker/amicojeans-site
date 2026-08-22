@@ -17,23 +17,35 @@
 --disp:'Archivo',sans-serif;
 --body:'Pretendard',-apple-system,sans-serif;
 /* ──────────────────────────────────────────────────────── */
---ink:#14161A;--indigo:#1E2F4D;--raw:#E8E4DC;--paper:#F7F5F1;--selvedge:#B7332B;
---line:rgba(20,22,26,.14);--mute:#6E7278;--gut:24px}
+
+/* ── 톤앤매너 v0.4 — 화이트 + 셀비지 레드 ─────────────────────
+   대표 확정(2026-08-22): 스튜디오디뻬를라의 블랙무드를
+   「흰 바탕 + 빨간 스티치 셀비지선」으로 치환한다.
+   붉은색은 셀비지 데님 안쪽 적이(赤耳) 실선 한 가지만 쓴다.        */
+--ink:#0E0F11;--paper:#FFFFFF;--off:#F5F4F2;--raw:#EDEAE4;
+--selvedge:#C8102E;
+--line:rgba(14,15,17,.13);--mute:#7A7D82;--gut:24px;
+--stitchH:repeating-linear-gradient(90deg,var(--selvedge) 0 8px,transparent 8px 15px);
+--stitchV:repeating-linear-gradient(180deg,var(--selvedge) 0 8px,transparent 8px 15px);
+--stitchGray:repeating-linear-gradient(180deg,rgba(14,15,17,.16) 0 8px,transparent 8px 15px)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
 button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 :focus-visible{outline:2px solid var(--selvedge);outline-offset:3px}
-.selvedge{position:fixed;left:10px;top:0;bottom:0;width:1px;background:var(--line);z-index:60}
-.selvedge::before{content:"";position:absolute;left:-1px;width:3px;top:calc(8vh + var(--p,0)*62vh);height:22vh;background:var(--selvedge)}
+
+/* 좌측 고정 셀비지선 — 스크롤 위치를 붉은 스티치가 따라 내려간다 */
+.selvedge{position:fixed;left:12px;top:0;bottom:0;width:2px;background:var(--stitchGray);z-index:60}
+.selvedge::before{content:"";position:absolute;left:0;width:2px;top:calc(8vh + var(--p,0)*62vh);height:22vh;background:var(--stitchV)}
 @media(max-width:820px){.selvedge{display:none}}
-header{position:sticky;top:0;z-index:50;background:rgba(247,245,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;gap:24px;padding:0 var(--gut);height:60px;max-width:1320px;margin:0 auto}
 .logo{font-family:var(--disp);font-weight:600;font-size:17px;letter-spacing:.22em;white-space:nowrap}
 .logo small{display:block;font-family:var(--body);font-weight:400;font-size:9px;letter-spacing:.18em;color:var(--mute);margin-top:-3px}
 nav{display:flex;gap:22px;margin-left:auto}
-nav button,nav a{font-size:13.5px;padding:6px 0;border-bottom:1px solid transparent;color:var(--mute)}
-nav button.on{color:var(--ink);border-bottom-color:var(--selvedge)}
+nav button,nav a{font-size:13.5px;padding:6px 0;border-bottom:2px solid transparent;color:var(--mute)}
+nav button.on{color:var(--ink);border-bottom:2px solid transparent;background-image:var(--stitchH);background-repeat:repeat-x;background-position:bottom;background-size:auto 2px}
 nav a:hover{color:var(--ink)}
 .login{display:inline-block;font-family:var(--disp);font-size:11px;letter-spacing:.14em;border:1px solid var(--ink);padding:7px 13px}
 .login:hover{background:var(--ink);color:var(--paper)}
@@ -43,6 +55,7 @@ nav{position:fixed;inset:60px 0 auto;background:var(--paper);flex-direction:colu
 nav.open{transform:none}
 nav button,nav a{text-align:left;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px;display:block}
 .burger{display:block}.login{display:none}}
+
 main{max-width:1320px;margin:0 auto;padding:0 var(--gut) 90px;position:relative}
 .page{display:none}.page.on{display:block;animation:fade .4s ease}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -50,18 +63,42 @@ main{max-width:1320px;margin:0 auto;padding:0 var(--gut) 90px;position:relative}
 h2{font-family:var(--disp);font-weight:400;font-size:clamp(26px,5vw,40px);letter-spacing:.02em;line-height:1.1;margin:8px 0 6px}
 h3{font-size:16px;font-weight:600}
 .lead{color:var(--mute);max-width:56ch;font-size:14px}
-.sechead{padding:64px 0 26px;border-top:1px solid var(--line)}
-.sechead:first-child{border-top:0}
-.slot{position:relative;background:repeating-linear-gradient(58deg,rgba(30,47,77,.10) 0 2px,transparent 2px 5px),linear-gradient(160deg,#3C5480,#1E2F4D 60%,#16233A);display:flex;align-items:flex-end;padding:14px;transition:filter .3s}
-.slot span{font-family:var(--disp);font-size:10px;letter-spacing:.16em;color:rgba(255,255,255,.62);text-transform:uppercase}
+
+/* 구획 머리 — 경계선을 붉은 러닝스티치로 */
+.sechead{padding:64px 0 26px;position:relative}
+.sechead::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--stitchH);opacity:.85}
+.sechead:first-child{padding-top:0}
+.sechead:first-child::before{display:none}
+.stitch{height:2px;background:var(--stitchH)}
+
+/* 사진 자리 — 흰 바탕 위 데님 트윌 결만 옅게 */
+.slot{position:relative;background:repeating-linear-gradient(58deg,rgba(14,15,17,.05) 0 2px,transparent 2px 6px),var(--off);border:1px solid var(--line);display:flex;align-items:flex-end;padding:14px;transition:filter .3s}
+.slot::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--stitchH);opacity:0;transition:opacity .3s}
+.slot span{font-family:var(--disp);font-size:10px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase}
 .r34{aspect-ratio:3/4}.r11{aspect-ratio:1/1}.r169{aspect-ratio:16/9}.r43{aspect-ratio:4/3}
-.hero{position:relative;margin:0 calc(var(--gut)*-1);height:min(78vh,660px);overflow:hidden}
-.hero .slot{height:100%;padding:0}
-.hero .cap{position:absolute;left:var(--gut);bottom:34px;color:#fff;max-width:min(90%,660px)}
-.hero h1{font-family:var(--disp);font-weight:300;font-size:clamp(30px,7.4vw,66px);line-height:1.03}
-.hero h1 em{font-style:normal;font-weight:600}
-.hero p{margin-top:12px;font-size:14px;color:rgba(255,255,255,.82)}
-.marks{position:absolute;right:var(--gut);bottom:34px;text-align:right;color:rgba(255,255,255,.7);font-family:var(--disp);font-size:11px;letter-spacing:.14em;line-height:1.9}
+
+/* ── 원프레임 메인 ────────────────────────────────────────
+   대표 확정(2026-08-22): 첫 화면에는 「데님만 합니다」 한 장면만 둔다.
+   높이를 100svh - 헤더로 잡아 모니터·패드·모바일 모두 한 프레임에 맞춘다. */
+.hero{position:relative;height:calc(100svh - 60px);min-height:440px;max-height:900px;display:flex;flex-direction:column;justify-content:center;margin:0 calc(var(--gut)*-1);padding:0 calc(var(--gut) + 14px)}
+@supports not (height:100svh){.hero{height:calc(100vh - 60px)}}
+.hero::before,.hero::after{content:"";position:absolute;top:7%;bottom:7%;width:2px;background:var(--stitchV)}
+.hero::before{left:var(--gut)}
+.hero::after{right:var(--gut)}
+@media(max-width:560px){.hero::before{left:6px}.hero::after{right:6px}.hero{padding:0 22px}}
+.hero-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-family:var(--disp);font-size:10.5px;letter-spacing:.24em;color:var(--selvedge);text-transform:uppercase}
+.hero-top .kr{font-family:var(--body);letter-spacing:.14em;color:var(--mute)}
+.hero h1{font-family:var(--body);font-weight:700;font-size:clamp(40px,9.4vw,112px);line-height:1.02;letter-spacing:-.025em;margin:14px 0 0}
+.hero-stitch{margin:26px 0 22px;max-width:min(78%,720px)}
+.hero-sub{font-size:clamp(16px,2.4vw,25px);font-weight:500;letter-spacing:-.01em}
+.hero-lead{color:var(--mute);font-size:14px;max-width:46ch;margin-top:10px}
+.hero-foot{position:absolute;left:calc(var(--gut) + 14px);right:calc(var(--gut) + 14px);bottom:26px;display:flex;gap:18px;flex-wrap:wrap;font-family:var(--disp);font-size:10.5px;letter-spacing:.14em;color:var(--mute)}
+.hero-foot span{font-family:var(--body);letter-spacing:.04em}
+.cue{position:absolute;right:calc(var(--gut) + 14px);bottom:24px;font-family:var(--disp);font-size:10px;letter-spacing:.22em;color:var(--selvedge)}
+.cue::after{content:"";display:block;width:2px;height:34px;margin:8px auto 0;background:var(--stitchV);animation:cue 1.9s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(5px)}}
+@media(max-width:560px){.hero-foot{font-size:10px;gap:10px;bottom:52px}.cue{right:22px;bottom:14px}}
+
 .grid{display:grid;gap:16px 14px;grid-template-columns:repeat(4,1fr)}
 .grid.g3{grid-template-columns:repeat(3,1fr)}.grid.g2{grid-template-columns:repeat(2,1fr)}
 @media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}.grid.g3,.grid.g2{grid-template-columns:repeat(2,1fr)}}
@@ -69,25 +106,21 @@ h3{font-size:16px;font-weight:600}
 .card figcaption{padding:9px 1px 0}
 .card .t{font-size:13.5px;font-weight:600}
 .card .m{font-size:11.5px;color:var(--mute);font-family:var(--disp);letter-spacing:.06em;margin-top:2px}
-.card:hover .slot{filter:brightness(1.14)}
+.card:hover .slot{filter:brightness(.985)}
+.card:hover .slot::after{opacity:1}
 
-/* 홈 — 사진 없는 스타일 목록 (대표 확정: 홈에는 히어로 사진만) */
+/* 홈 — 사진 없는 스타일 목록 (대표 확정: 홈 첫 화면에는 사진 없음) */
 .stylelist{border-top:1px solid var(--line)}
 .stylelist li{list-style:none;display:flex;align-items:baseline;gap:16px;padding:13px 2px;border-bottom:1px solid var(--line)}
-.stylelist .no{font-family:var(--disp);font-size:11px;letter-spacing:.12em;color:var(--mute);width:64px;flex:none}
+.stylelist .no{font-family:var(--disp);font-size:11px;letter-spacing:.12em;color:var(--selvedge);width:74px;flex:none}
 .stylelist .nm{font-size:15px;font-weight:600;flex:1}
 .stylelist .sp{font-family:var(--disp);font-size:11.5px;letter-spacing:.06em;color:var(--mute);text-align:right}
 @media(max-width:560px){.stylelist li{flex-wrap:wrap;gap:6px 12px}.stylelist .sp{width:100%;text-align:left}}
 
-/* 로그인 게이트 */
-.gate{border:1px solid var(--line);padding:48px 28px;text-align:center;background:#fff}
-.gate .lock{font-family:var(--disp);font-size:10.5px;letter-spacing:.22em;color:var(--selvedge)}
-.gate h3{font-size:19px;margin:10px 0 8px}
-.gate p{color:var(--mute);font-size:13.5px;max-width:42ch;margin:0 auto 20px}
-.gate .btn{display:inline-block;background:var(--ink);color:var(--paper);padding:12px 22px;font-family:var(--disp);font-size:11.5px;letter-spacing:.14em}
 .chips{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 20px}
 .chip{font-size:12px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--mute)}
 .chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
 .tl{border-top:1px solid var(--line)}
 .tl-row{display:grid;grid-template-columns:104px 1fr 220px;gap:22px;padding:20px 0;border-bottom:1px solid var(--line);align-items:start}
 .tl-date{font-family:var(--disp);font-size:12px;letter-spacing:.1em;color:var(--mute)}
@@ -96,42 +129,49 @@ h3{font-size:16px;font-weight:600}
 .stage{display:inline-block;font-family:var(--disp);font-size:10px;letter-spacing:.14em;padding:3px 8px;border:1px solid var(--line);margin-top:9px}
 .stage.now{background:var(--selvedge);color:#fff;border-color:var(--selvedge)}
 @media(max-width:760px){.tl-row{grid-template-columns:1fr;gap:10px}.tl-date b{display:inline;font-size:16px;margin-right:8px}}
+
 .subtabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin-bottom:30px;overflow-x:auto}
 .subtabs button{padding:11px 0;font-size:13.5px;color:var(--mute);border-bottom:2px solid transparent;white-space:nowrap}
-.subtabs button.on{color:var(--ink);border-bottom-color:var(--ink)}
+.subtabs button.on{color:var(--ink);background-image:var(--stitchH);background-repeat:repeat-x;background-position:bottom;background-size:auto 2px}
 .sub{display:none}.sub.on{display:block}
+
 .two{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start}
 @media(max-width:820px){.two{grid-template-columns:1fr;gap:24px}}
 .two p{margin-bottom:14px;font-size:14.5px}
 .facts{border-top:1px solid var(--line);margin-top:22px}
 .facts div{display:flex;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px}
 .facts b{font-family:var(--disp);font-size:11px;letter-spacing:.13em;color:var(--mute);width:104px;flex:none;padding-top:3px;font-weight:500}
+
 .fit{width:100%;border-collapse:collapse;font-size:13px}
 .fit th,.fit td{border-bottom:1px solid var(--line);padding:11px 8px;text-align:left}
 .fit th{font-family:var(--disp);font-size:10.5px;letter-spacing:.13em;color:var(--mute);font-weight:500}
+.fit thead tr{border-bottom:2px solid transparent}
 .fit td:first-child{font-weight:600}
 .fitnote{font-size:12px;color:var(--mute);margin-top:12px}
-.room{background:var(--ink);color:var(--raw);margin:0 calc(var(--gut)*-1);padding:44px var(--gut) 56px}
-.room .eyebrow{color:#E0A64B}.room h2{color:var(--raw)}.room .lead{color:rgba(232,228,220,.62)}
+
+/* 거래처룸 미리보기 — 화이트 톤으로 전환 */
+.room{background:var(--paper);margin:0 calc(var(--gut)*-1);padding:44px var(--gut) 56px;position:relative}
+.room::before{content:"";position:absolute;top:0;left:var(--gut);right:var(--gut);height:2px;background:var(--stitchH)}
 .board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
 @media(max-width:900px){.board{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:520px){.board{grid-template-columns:1fr}}
-.col{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);padding:12px;min-height:180px}
-.col h4{font-family:var(--disp);font-size:10.5px;letter-spacing:.15em;color:rgba(232,228,220,.55);font-weight:500;margin-bottom:11px;display:flex;justify-content:space-between}
-.tkt{background:#1D2026;border:1px solid rgba(255,255,255,.09);border-left:2px solid #E0A64B;padding:9px 10px;margin-bottom:8px}
-.tkt .no{font-family:var(--disp);font-size:10px;letter-spacing:.1em;color:rgba(232,228,220,.5)}
+.col{background:var(--off);border:1px solid var(--line);padding:12px;min-height:180px}
+.col h4{font-family:var(--disp);font-size:10.5px;letter-spacing:.15em;color:var(--mute);font-weight:500;margin-bottom:11px;display:flex;justify-content:space-between}
+.tkt{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--ink);padding:9px 10px;margin-bottom:8px}
+.tkt .no{font-family:var(--disp);font-size:10px;letter-spacing:.1em;color:var(--selvedge)}
 .tkt .ti{font-size:13px;margin:2px 0 5px}
-.tkt .me{font-size:11px;color:rgba(232,228,220,.45)}
-.tkt.done{border-left-color:#4F7A55;opacity:.62}.tkt.late{border-left-color:var(--selvedge)}
+.tkt .me{font-size:11px;color:var(--mute)}
+.tkt.done{border-left-color:#B9BDC2;opacity:.7}
+.tkt.late{border-left-color:var(--selvedge);background:#FFF7F7}
 
-/* 문의 */
 .ask{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
 @media(max-width:820px){.ask{grid-template-columns:1fr;gap:24px}}
 .ask ul{margin:0 0 0 18px}
 .ask li{padding:4px 0;font-size:14px}
 .mail{display:inline-block;margin-top:18px;background:var(--ink);color:var(--paper);padding:12px 22px;font-family:var(--disp);font-size:11.5px;letter-spacing:.14em}
 
-footer{border-top:1px solid var(--line);padding:40px var(--gut) 90px;max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:30px;font-size:12.5px;color:var(--mute)}
+footer{padding:40px var(--gut) 90px;max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:30px;font-size:12.5px;color:var(--mute);position:relative}
+footer::before{content:"";position:absolute;top:0;left:var(--gut);right:var(--gut);height:2px;background:var(--stitchH)}
 @media(max-width:760px){footer{grid-template-columns:1fr;gap:22px}}
 footer h5{font-family:var(--disp);font-size:10.5px;letter-spacing:.16em;color:var(--ink);margin-bottom:9px;font-weight:500}
 footer li{list-style:none;padding:2px 0}
@@ -139,7 +179,7 @@ footer li{list-style:none;padding:2px 0}
 
 /* ── 리뷰 레이어 ─────────────────────────────── */
 #rvbar{position:fixed;right:16px;bottom:16px;z-index:200;display:flex;gap:8px;align-items:center}
-#rvbar button{background:var(--ink);color:var(--paper);padding:11px 15px;font-size:13px;border-radius:2px;box-shadow:0 3px 14px rgba(0,0,0,.22)}
+#rvbar button{background:var(--ink);color:var(--paper);padding:11px 15px;font-size:13px;border-radius:2px;box-shadow:0 3px 14px rgba(0,0,0,.18)}
 #rvbar button.act{background:var(--selvedge)}
 #rvbar .cnt{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
 body.pinmode{cursor:crosshair}
@@ -162,7 +202,7 @@ body.pinmode main *{cursor:crosshair}
 #rvfoot button{border:1px solid var(--ink);padding:10px;font-size:13px}
 #rvfoot .send{background:var(--ink);color:var(--paper)}
 #rvfoot .hint{font-size:11.5px;color:var(--mute);line-height:1.5}
-#rvdlg{position:fixed;inset:0;background:rgba(20,22,26,.5);z-index:230;display:none;align-items:center;justify-content:center;padding:20px}
+#rvdlg{position:fixed;inset:0;background:rgba(14,15,17,.45);z-index:230;display:none;align-items:center;justify-content:center;padding:20px}
 #rvdlg.open{display:flex}
 #rvdlg .box{background:var(--paper);padding:20px;width:min(420px,100%);border-top:3px solid var(--selvedge)}
 #rvdlg h4{font-size:15px;margin-bottom:4px}
@@ -196,15 +236,22 @@ body.pinmode main *{cursor:crosshair}
 
 <main>
 <section class="page on" id="p-home">
+
+<!-- 원프레임 — 이 블록 하나가 첫 화면 전체를 차지한다. 요소를 더하지 말 것. -->
 <div class="hero">
-<div class="slot"><span>워싱 원단 클로즈업</span></div>
-<div class="cap"><h1><em>데님 한 종목만 합니다.</em><br>기획부터 완사입까지.</h1>
-<p>다른 품목을 하지 않기 때문에, 데님에 관해서는 처음부터 끝까지 직접 관리합니다.</p></div>
-<div class="marks">SEOUL · 고양<br>CHINA · 생산 사무소<br>AMICO JEANS</div>
+<div class="hero-in">
+<p class="hero-top"><span>AMICO JEANS</span><span class="kr">데님 전문 생산 프로모션</span></p>
+<h1>데님만 합니다.</h1>
+<div class="stitch hero-stitch"></div>
+<p class="hero-sub">기획부터 완사입까지.</p>
+<p class="hero-lead">다른 품목을 하지 않기 때문에, 데님에 관해서는 처음부터 끝까지 직접 관리합니다.</p>
+</div>
+<div class="hero-foot"><span>경기 고양시 덕양구 현대프리미어캠퍼스</span><span>중국 생산 사무소</span></div>
+<button class="cue" onclick="window.scrollTo({top:innerHeight-60,behavior:'smooth'})">SCROLL</button>
 </div>
 
 <div class="sechead"><p class="eyebrow">Collection</p><h2>이번 시즌 수주 상품</h2>
-<p class="lead">거래처와 확정한 스타일입니다. 사진과 상세 사양은 거래처 로그인 후 보실 수 있습니다.</p></div>
+<p class="lead">거래처와 확정한 스타일입니다. 사진과 상세 사양은 컬렉션에서 보실 수 있습니다.</p></div>
 <ul class="stylelist">
 <li><span class="no">26FW / 001</span><span class="nm">와이드 스트레이트</span><span class="sp">14.5oz RIGID · ONE WASH</span></li>
 <li><span class="no">26FW / 002</span><span class="nm">세미 부츠컷</span><span class="sp">12oz · SOFT GRUNGE</span></li>
@@ -215,13 +262,17 @@ body.pinmode main *{cursor:crosshair}
 </ul>
 <p style="margin-top:18px"><button class="login" onclick="go('collection')">컬렉션 전체 보기</button></p>
 
+<div class="sechead"><p class="eyebrow">Fabric</p><h2>첫 화면 원단</h2>
+<p class="lead">촬영 후 교체합니다.</p></div>
+<div class="slot r169"><span>워싱 원단 클로즈업</span></div>
+
 <div class="sechead"><p class="eyebrow">Project</p><h2>다음 수주회</h2></div>
 <div class="two">
 <div><p class="eyebrow">2026 · 09 · 15 — 09 · 19</p>
 <h3 style="font-size:22px;margin:6px 0 10px">26 F/W 수주회 · 고양 쇼룸</h3>
 <p class="lead">샘플 42스타일, 원단 스와치 전량 비치. 방문 일정은 거래처룸에서 신청하시면 시간대를 배정해 드립니다.</p>
 <div class="facts">
-<div><b>장소</b><span>경기 고양시 덕양구 · 고양 쇼룸</span></div>
+<div><b>장소</b><span>경기 고양시 덕양구 현대프리미어캠퍼스</span></div>
 <div><b>준비</b><span>샘플 입고 완료 · 쇼룸 세팅 진행 중</span></div>
 <div><b>신청</b><span>거래처룸 → 수주회 예약</span></div>
 </div></div>
@@ -235,19 +286,19 @@ body.pinmode main *{cursor:crosshair}
 
 <section class="page" id="p-collection">
 <div class="sechead"><p class="eyebrow">Collection</p><h2>컬렉션</h2>
-<p class="lead">수주 확정 스타일 아카이브입니다. 거래처 기밀 보호를 위해 로그인한 거래처에게만 공개합니다.</p></div>
-<div class="gate">
-<p class="lock">CLIENT ONLY</p>
-<h3>거래처 로그인 후 열람할 수 있습니다</h3>
-<p>스타일 사진과 원단 중량·워싱 사양은 거래 관계가 있는 담당자에게만 공개합니다. 계정이 필요하시면 문의해 주세요.</p>
-<a class="btn" href="./login.html">거래처 로그인</a>
-</div>
-<p style="margin-top:14px;font-size:12.5px;color:var(--mute)">신규 거래를 검토 중이시라면 <a href="#" onclick="go('contact');return false" style="text-decoration:underline">문의</a>를 통해 샘플과 사양을 안내해 드립니다.</p>
-
-<!-- 로그인 후 화면용 마크업 — 거래처룸 연결 시 이 영역을 노출한다. 삭제하지 말 것.
+<p class="lead">수주 확정 스타일 아카이브입니다. 시즌별로 정리해 공개합니다.</p></div>
 <div class="chips"><span class="chip on">전체</span><span class="chip">26 F/W</span><span class="chip">26 S/S</span><span class="chip">와이드</span><span class="chip">스트레이트</span><span class="chip">부츠컷</span><span class="chip">아우터</span></div>
-<div class="grid" id="colgrid"></div>
--->
+<div class="grid">
+<figure class="card"><div class="slot r34"><span>26FW / 001</span></div><figcaption><div class="t">와이드 스트레이트</div><div class="m">14.5oz RIGID · ONE WASH</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26FW / 002</span></div><figcaption><div class="t">세미 부츠컷</div><div class="m">12oz · SOFT GRUNGE</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26FW / 003</span></div><figcaption><div class="t">데님 트러커</div><div class="m">13oz · VINTAGE WASH</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26FW / 004</span></div><figcaption><div class="t">테이퍼드 크롭</div><div class="m">11oz BLACK · RAW</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26FW / 005</span></div><figcaption><div class="t">하이라이즈 와이드</div><div class="m">14oz · MID BLUE</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26FW / 006</span></div><figcaption><div class="t">카펜터 팬츠</div><div class="m">13.5oz · ECRU</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26SS / 093</span></div><figcaption><div class="t">크롭 스트레이트</div><div class="m">12oz · LIGHT BLUE</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>26SS / 097</span></div><figcaption><div class="t">데님 셔츠</div><div class="m">8oz · SOFT WASH</div></figcaption></figure>
+</div>
+<p class="fitnote">사진은 촬영 후 교체됩니다. 원단 스와치와 실물 샘플은 쇼룸에서 확인하실 수 있습니다.</p>
 </section>
 
 <section class="page" id="p-project">
@@ -275,14 +326,14 @@ body.pinmode main *{cursor:crosshair}
 </div>
 <div class="sub on">
 <div class="two">
-<div><p class="eyebrow">Seoul & China</p>
+<div><p class="eyebrow">Seoul &amp; China</p>
 <h3 style="font-size:24px;margin:8px 0 16px;line-height:1.35">데님만 합니다.<br>대신, 데님의 처음부터 끝까지 합니다.</h3>
 <p>아미코진스는 데님 전문 생산 프로모션 회사입니다. 한국 사무실에서 기획과 거래처 관리를, 중국 사무실에서 원단·봉제·워싱 생산을 직접 관리합니다.</p>
 <p>대표 남상백은 이탈리아에서 패션을 공부한 뒤 데님 한 종목에 집중해 왔습니다. 브랜드가 그리는 핏을 원단과 워싱의 언어로 옮기는 일 — 그게 저희가 하는 일입니다.</p>
 <p>신규 브랜드에는 기획과 브랜드 빌딩부터, 기존 거래처에는 시즌 리오더와 품질 관리까지 이어서 맡습니다.</p>
 <div class="facts">
 <div><b>사업</b><span>데님 기획 · 생산 프로모션 · 브랜드 빌딩</span></div>
-<div><b>거점</b><span>경기 고양시 덕양구 · 중국 생산 사무소</span></div>
+<div><b>거점</b><span>경기 고양시 덕양구 현대프리미어캠퍼스</span></div>
 <div><b>품목</b><span>진 · 데님 아우터 · 워크웨어</span></div>
 <div><b>대표</b><span>남상백</span></div>
 </div></div>
@@ -291,30 +342,23 @@ body.pinmode main *{cursor:crosshair}
 
 <div class="sub">
 <h3 style="font-size:20px;margin-bottom:6px">핏 가이드</h3>
-<p class="lead" style="margin-bottom:22px">아미코 기본 핏 5종입니다. 상세 치수와 착용컷은 거래처 로그인 후 보실 수 있습니다.</p>
-<div class="gate">
-<p class="lock">CLIENT ONLY</p>
-<h3>거래처 로그인 후 열람할 수 있습니다</h3>
-<p>핏별 밑위·허벅지·밑단 규격과 권장 원단, 착용컷은 거래 관계가 있는 담당자에게만 공개합니다.</p>
-<a class="btn" href="./login.html">거래처 로그인</a>
-</div>
-
-<!-- 로그인 후 화면용 마크업 — 핏 5종 확정(대표 2026-08-21). 삭제하지 말 것.
+<p class="lead" style="margin-bottom:22px">아미코 기본 핏 5종입니다. 상세 치수와 권장 원단을 함께 공개합니다.</p>
 <div class="grid g3" style="margin-bottom:26px">
-<figure class="card"><div class="slot r34"><span>FIT 01 · 착용컷</span></div><figcaption><div class="t">와이드</div></figcaption></figure>
-<figure class="card"><div class="slot r34"><span>FIT 02 · 착용컷</span></div><figcaption><div class="t">스트레이트</div></figcaption></figure>
-<figure class="card"><div class="slot r34"><span>FIT 03 · 착용컷</span></div><figcaption><div class="t">세미 부츠컷</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>FIT 01</span></div><figcaption><div class="t">와이드</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>FIT 02</span></div><figcaption><div class="t">스트레이트</div></figcaption></figure>
+<figure class="card"><div class="slot r34"><span>FIT 03</span></div><figcaption><div class="t">세미 부츠컷</div></figcaption></figure>
 </div>
 <table class="fit">
-<tr><th>핏</th><th>밑위</th><th>허벅지</th><th>밑단</th><th>권장 원단</th></tr>
+<thead><tr><th>핏</th><th>밑위</th><th>허벅지</th><th>밑단</th><th>권장 원단</th></tr></thead>
+<tbody>
 <tr><td>와이드</td><td>하이</td><td>여유</td><td>넓음</td><td>13–14.5oz 리지드</td></tr>
 <tr><td>스트레이트</td><td>미드</td><td>보통</td><td>보통</td><td>12–13oz</td></tr>
 <tr><td>세미 부츠컷</td><td>미드</td><td>슬림</td><td>퍼짐</td><td>11–12oz 스트레치</td></tr>
 <tr><td>테이퍼드</td><td>미드</td><td>보통</td><td>좁음</td><td>11–12.5oz</td></tr>
 <tr><td>슬림</td><td>로우–미드</td><td>슬림</td><td>좁음</td><td>10–11oz 스트레치</td></tr>
+</tbody>
 </table>
 <p class="fitnote">수치는 브랜드별 사이즈 스펙에 맞춰 그레이딩합니다.</p>
--->
 </div>
 
 <div class="sub">
@@ -327,7 +371,7 @@ body.pinmode main *{cursor:crosshair}
 <div class="slot r43"><span>미팅 테이블</span></div>
 </div>
 <div class="facts" style="max-width:520px">
-<div><b>위치</b><span>경기 고양시 덕양구 (상세 주소는 예약 시 안내)</span></div>
+<div><b>위치</b><span>경기 고양시 덕양구 현대프리미어캠퍼스</span></div>
 <div><b>운영</b><span>평일 10:00–18:00 · 예약제</span></div>
 <div><b>예약</b><span>거래처룸 또는 문의</span></div>
 </div>
@@ -354,7 +398,7 @@ body.pinmode main *{cursor:crosshair}
 <div>
 <div class="facts">
 <div><b>대표</b><span>남상백</span></div>
-<div><b>사무실</b><span>경기 고양시 덕양구</span></div>
+<div><b>사무실</b><span>경기 고양시 덕양구 현대프리미어캠퍼스</span></div>
 <div><b>생산</b><span>중국 생산 사무소</span></div>
 <div><b>쇼룸 방문</b><span>예약제 · 평일 10:00–18:00</span></div>
 <div><b>회신</b><span>영업일 기준 1–2일</span></div>
@@ -370,29 +414,29 @@ body.pinmode main *{cursor:crosshair}
 <p class="lead">엑셀과 카톡에 흩어진 오더 진행을 한 판에 모읍니다. 거래처는 자기 오더만, 직원은 담당 오더 전부를 봅니다.</p>
 <div class="board">
 <div class="col"><h4>샘플 <span>3</span></h4>
-<div class="tkt"><div class="no">26FW-014</div><div class="ti">와이드 스트레이트 · 1차 샘플</div><div class="me">A사 · 김OO · 8/24까지</div></div>
-<div class="tkt late"><div class="no">26FW-021</div><div class="ti">트러커 · 워싱 3안</div><div class="me">B사 · 이OO · 2일 지연</div></div>
-<div class="tkt"><div class="no">26FW-025</div><div class="ti">테이퍼드 · 패턴 수정</div><div class="me">A사 · 김OO</div></div></div>
+<div class="tkt"><div class="no">26FW-AB-014</div><div class="ti">와이드 스트레이트 · 1차샘플</div><div class="me">A사 · 김OO · 8/24까지</div></div>
+<div class="tkt late"><div class="no">26FW-CD-021</div><div class="ti">트러커 · 워싱 3안</div><div class="me">B사 · 이OO · 2일 지연</div></div>
+<div class="tkt"><div class="no">26FW-AB-025</div><div class="ti">테이퍼드 · 패턴 수정</div><div class="me">A사 · 김OO</div></div></div>
 <div class="col"><h4>확정 <span>2</span></h4>
-<div class="tkt"><div class="no">26FW-008</div><div class="ti">세미 부츠컷 · 320장</div><div class="me">C사 · 박OO · 10/20 입고 예정</div></div>
-<div class="tkt"><div class="no">26FW-011</div><div class="ti">크롭 스트레이트 · 180장</div><div class="me">B사 · 이OO · 10/28 입고 예정</div></div></div>
+<div class="tkt"><div class="no">26FW-EF-008</div><div class="ti">세미 부츠컷 · 320장</div><div class="me">C사 · 박OO · 10/20 입고 예정</div></div>
+<div class="tkt"><div class="no">26FW-CD-011</div><div class="ti">크롭 스트레이트 · 180장</div><div class="me">B사 · 이OO · 10/28 입고 예정</div></div></div>
 <div class="col"><h4>생산 <span>2</span></h4>
-<div class="tkt"><div class="no">26SS-093</div><div class="ti">와이드 · 재봉 60%</div><div class="me">9/2 워싱 예정</div></div>
-<div class="tkt"><div class="no">26SS-097</div><div class="ti">데님 셔츠 · 워싱 중</div><div class="me">검품 대기</div></div></div>
+<div class="tkt"><div class="no">26SS-AB-093</div><div class="ti">와이드 · 재봉 60%</div><div class="me">9/2 워싱 예정</div></div>
+<div class="tkt"><div class="no">26SS-EF-097</div><div class="ti">데님 셔츠 · 워싱 중</div><div class="me">검품 대기</div></div></div>
 <div class="col"><h4>출고 <span>2</span></h4>
-<div class="tkt done"><div class="no">26SS-088</div><div class="ti">스트레이트 · 240장</div><div class="me">8/12 입고 완료</div></div>
-<div class="tkt done"><div class="no">26SS-090</div><div class="ti">트러커 · 150장</div><div class="me">8/18 입고 완료</div></div></div>
+<div class="tkt done"><div class="no">26SS-AB-088</div><div class="ti">스트레이트 · 240장</div><div class="me">8/12 입고 완료</div></div>
+<div class="tkt done"><div class="no">26SS-CD-090</div><div class="ti">트러커 · 150장</div><div class="me">8/18 입고 완료</div></div></div>
 </div>
-<p style="margin-top:22px;font-size:12.5px;color:rgba(232,228,220,.5)">카드 하나 = 오더 하나. 거래처는 <b>진행 상태 · 진행 사진 · 납기 일정</b>까지 봅니다. 원가와 생산 공장 정보는 공개되지 않습니다. 컬렉션 페이지의 상품은 여기 카드에서 만들어집니다.</p>
+<p style="margin-top:22px;font-size:12.5px;color:var(--mute)">카드 하나 = 오더 하나. 거래처는 <b>진행 상태 · 진행 사진 · 납기 일정</b>까지 봅니다. 원가와 생산 공장 정보는 공개되지 않습니다. 컬렉션 페이지의 상품은 여기 카드에서 만들어집니다.</p>
 </div>
 </section>
 </main>
 
 <footer>
 <div><h5>AMICO JEANS</h5>
-<p>데님 전문 생산 프로모션<br>경기 고양시 덕양구 · 중국 생산 사무소</p>
-<span class="badge">PROTOTYPE v0.3</span></div>
-<div><h5>CONTACT</h5><ul><li>대표 남상백</li><li>TEL — (입력)</li><li>MAIL — (입력)</li><li>인스타그램 — (입력)</li></ul></div>
+<p>데님 전문 생산 프로모션<br>경기 고양시 덕양구 현대프리미어캠퍼스<br>중국 생산 사무소</p>
+<span class="badge">PROTOTYPE v0.4</span></div>
+<div><h5>COMPANY</h5><ul><li>아미코진스 (AMICO JEANS)</li><li>대표 남상백</li><li>사업자등록번호 424-76-00574</li><li>TEL — (입력)</li><li>MAIL — (입력)</li><li>인스타그램 — (입력)</li></ul></div>
 <div><h5>SITE</h5><ul>
 <li><a href="#" onclick="go('collection');return false">컬렉션</a></li>
 <li><a href="#" onclick="go('project');return false">프로젝트</a></li>
@@ -484,7 +528,7 @@ function addNote(x,y){
   const sIdx=cur==='brand'?[...document.querySelectorAll('.subtabs button')].findIndex(b=>b.classList.contains('on')):0;
   const label=PAGES[cur]+(cur==='brand'?' · '+['브랜드 소개','핏 가이드','스토어'][sIdx]:'');
   dlg('<h4>이 자리에 대한 의견</h4><small>'+label+'</small>'+
-  '<textarea id="tx" placeholder="예: 히어로 사진은 워싱 원단 클로즈업으로 갔으면 합니다"></textarea>'+
+  '<textarea id="tx" placeholder="예: 첫 화면 글자를 더 키웠으면 합니다"></textarea>'+
   '<div class="btns"><button onclick="closeDlg();">취소</button><button class="go" id="ok">등록</button></div>');
   const t=document.getElementById('tx');t.focus();
   document.getElementById('ok').onclick=()=>{
@@ -525,7 +569,7 @@ function draw(){
 }
 
 function text(){
-  return '[아미코진스 홈페이지 v0.3 의견 · '+who+']\n\n'+
+  return '[아미코진스 홈페이지 v0.4 의견 · '+who+']\n\n'+
    notes.map((n,i)=>(i+1)+'. '+PAGES[n.page]+(n.page==='brand'?'/'+['브랜드 소개','핏 가이드','스토어'][n.sub]:'')+' — '+n.txt).join('\n')+
    '\n\n#AMICO'+btoa(unescape(encodeURIComponent(JSON.stringify(notes))));
 }
