@@ -77,18 +77,23 @@ h3{font-size:16px;font-weight:600}
 .slot span{font-family:var(--disp);font-size:10px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase}
 .r34{aspect-ratio:3/4}.r11{aspect-ratio:1/1}.r169{aspect-ratio:16/9}.r43{aspect-ratio:4/3}
 
-/* ── 원프레임 메인 ────────────────────────────────────────
-   대표 확정(2026-08-22): 첫 화면에는 「데님만 합니다」 한 장면만 둔다.
-   높이를 100svh - 헤더로 잡아 모니터·패드·모바일 모두 한 프레임에 맞춘다. */
-.hero{position:relative;height:calc(100svh - 60px);min-height:440px;max-height:900px;display:flex;flex-direction:column;justify-content:center;margin:0 calc(var(--gut)*-1);padding:0 calc(var(--gut) + 14px)}
+/* ── 메인 히어로 — 3섹션 원페이지 스냅 ─────────────────────
+   대표 확정(2026-08-23): 사진 없이 텍스트만, 세 섹션이 각각 화면 한 장을 채운다.
+   스크롤을 조금만 굴려도 다음 섹션이 딱 물리도록 scroll-snap(y mandatory/start).
+   높이는 100svh - 헤더(60px) 기준 — 모니터·패드·모바일 모두 한 프레임.
+   문구 순서(문맥 연결): ①데님만 합니다 ②서울 기획·중국 생산 ③오더 트랙. 요소를 더하지 말 것. */
+.hero{position:relative;height:calc(100svh - 60px);min-height:440px;margin:0 calc(var(--gut)*-1);overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none}
+.hero::-webkit-scrollbar{display:none}
 @supports not (height:100svh){.hero{height:calc(100vh - 60px)}}
-.hero::before,.hero::after{content:"";position:absolute;top:7%;bottom:7%;width:2px;background:var(--stitchV)}
-.hero::before{left:var(--gut)}
-.hero::after{right:var(--gut)}
-@media(max-width:560px){.hero::before{left:6px}.hero::after{right:6px}.hero{padding:0 22px}}
+.hsec{position:relative;height:100%;min-height:440px;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;padding:0 calc(var(--gut) + 14px)}
+.hsec::before,.hsec::after{content:"";position:absolute;top:7%;bottom:7%;width:2px;background:var(--stitchV)}
+.hsec::before{left:var(--gut)}
+.hsec::after{right:var(--gut)}
+@media(max-width:560px){.hsec::before{left:6px}.hsec::after{right:6px}.hsec{padding:0 22px}}
 .hero-top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-family:var(--disp);font-size:10.5px;letter-spacing:.24em;color:var(--selvedge);text-transform:uppercase}
 .hero-top .kr{font-family:var(--body);letter-spacing:.14em;color:var(--mute)}
 .hero h1{font-family:var(--body);font-weight:700;font-size:clamp(40px,9.4vw,112px);line-height:1.02;letter-spacing:-.025em;margin:14px 0 0}
+.hero .hero-h1-sm{font-size:clamp(30px,6.4vw,74px);line-height:1.12}
 .hero-stitch{margin:26px 0 22px;max-width:min(78%,720px)}
 .hero-sub{font-size:clamp(16px,2.4vw,25px);font-weight:500;letter-spacing:-.01em}
 .hero-lead{color:var(--mute);font-size:14px;max-width:46ch;margin-top:10px}
@@ -237,17 +242,37 @@ body.pinmode main *{cursor:crosshair}
 <main>
 <section class="page on" id="p-home">
 
-<!-- 원프레임 — 이 블록 하나가 첫 화면 전체를 차지한다. 요소를 더하지 말 것. -->
-<div class="hero">
-<div class="hero-in">
+<!-- 3섹션 원페이지 스냅 — 대표 확정(2026-08-23). 사진 없이 텍스트만. 요소를 더하지 말 것. -->
+<div class="hero" id="hero">
+<section class="hsec">
+<div>
 <p class="hero-top"><span>AMICO JEANS</span><span class="kr">데님 전문 생산 프로모션</span></p>
 <h1>데님만 합니다.</h1>
 <div class="stitch hero-stitch"></div>
-<p class="hero-sub">기획부터 완사입까지.</p>
+<p class="hero-sub">DENIM ONLY</p>
 <p class="hero-lead">다른 품목을 하지 않기 때문에, 데님에 관해서는 처음부터 끝까지 직접 관리합니다.</p>
 </div>
 <div class="hero-foot"><span>경기 고양시 덕양구 현대프리미어캠퍼스</span><span>중국 생산 사무소</span></div>
-<button class="cue" onclick="window.scrollTo({top:innerHeight-60,behavior:'smooth'})">SCROLL</button>
+<button class="cue" onclick="hnext()">SCROLL</button>
+</section>
+<section class="hsec">
+<div>
+<p class="hero-top"><span>SEOUL · CHINA</span></p>
+<h1 class="hero-h1-sm">서울에서 기획하고, 중국에서 만듭니다.</h1>
+<div class="stitch hero-stitch"></div>
+<p class="hero-sub">한·중 두 사무실</p>
+</div>
+<button class="cue" onclick="hnext()">SCROLL</button>
+</section>
+<section class="hsec">
+<div>
+<p class="hero-top"><span>ORDER TRACK</span></p>
+<h1 class="hero-h1-sm">1차 샘플부터 선적까지, 번호 하나로 따라옵니다.</h1>
+<div class="stitch hero-stitch"></div>
+<p class="hero-sub">오더 트랙</p>
+</div>
+<button class="cue" onclick="hend()">SCROLL</button>
+</section>
 </div>
 
 <div class="sechead"><p class="eyebrow">Collection</p><h2>이번 시즌 수주 상품</h2>
@@ -480,6 +505,9 @@ function sub(i,btn){
   document.querySelectorAll('#p-brand .sub').forEach((s,n)=>s.classList.toggle('on',n===i));
   draw();
 }
+/* 히어로 스냅 이동 — 다음 섹션으로 / 히어로 아래 본문으로 */
+function hnext(){var w=document.getElementById('hero');w.scrollBy({top:w.clientHeight,behavior:'smooth'})}
+function hend(){var w=document.getElementById('hero');window.scrollTo({top:w.getBoundingClientRect().bottom+scrollY-60,behavior:'smooth'})}
 addEventListener('scroll',()=>{
   const r=scrollY/Math.max(1,document.body.scrollHeight-innerHeight);
   document.getElementById('sv').style.setProperty('--p',r.toFixed(3));
