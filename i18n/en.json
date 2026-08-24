@@ -1,5 +1,8 @@
 {
-  "_meta": { "lang": "en", "name": "English" },
+  "_meta": {
+    "lang": "en",
+    "name": "English"
+  },
   "AMICO JEANS": "AMICO JEANS",
   "JEANS · 데님 프로모션": "JEANS · DENIM PROMOTION",
   "컬렉션": "Collection",
@@ -7,7 +10,6 @@
   "브랜드": "Brand",
   "문의": "Contact",
   "거래처룸": "Client Room",
-  "CLIENT LOGIN": "CLIENT LOGIN",
   "워싱 원단 클로즈업": "WASHED DENIM CLOSE-UP",
   "데님 전문 생산 프로모션": "Denim production promotion",
   "데님 한 종목만 합니다.": "Denim. Only denim.",
@@ -137,7 +139,6 @@
   "의견 목록": "Notes",
   "의견 보내기": "Send notes",
   "받은 의견 불러오기": "Import notes",
-
   "이메일": "Email",
   "로그인 링크 받기": "Send sign-in link",
   "입력하신 메일로 로그인 링크를 보내 드립니다. 비밀번호는 만들지 않습니다.": "We will email you a sign-in link. No password is ever created.",
@@ -157,13 +158,10 @@
   "한·중 두 사무실": "Two offices, Korea and China",
   "1차 샘플부터 선적까지, 번호 하나로 따라옵니다.": "From first sample to shipment, tracked by a single number.",
   "오더 트랙": "Order Track",
-
   "준비 중 · D-25": "In preparation · D-25",
   "종료 · 사진 12장": "Closed · 12 photos",
   "종료 · 사진 28장": "Closed · 28 photos",
-
   "※ 메일 주소는 확정되는 대로 표기됩니다.": "* The email address will be listed as soon as it is confirmed.",
-
   "와이드 스트레이트 · 1차샘플": "Wide Straight · 1st sample",
   "A사 · 김OO · 8/24까지": "Client A · Kim · due 24 Aug",
   "트러커 · 워싱 3안": "Trucker · 3 wash options",
@@ -182,11 +180,11 @@
   "8/12 입고 완료": "Delivered 12 Aug",
   "트러커 · 150장": "Trucker · 150 pcs",
   "8/18 입고 완료": "Delivered 18 Aug",
-
   "카드 하나 = 오더 하나. 거래처는": "One card = one order. Clients see",
   "진행 상태 · 진행 사진 · 납기 일정": "status · progress photos · delivery dates",
   "까지 봅니다. 원가와 생산 공장 정보는 공개되지 않습니다. 컬렉션 페이지의 상품은 여기 카드에서 만들어집니다.": ". Cost and factory information are never shown. The styles on the Collection page are built from these cards.",
   "의견 0": "Notes 0",
   "의견은 이 브라우저에만 저장됩니다. 다 적으신 뒤": "Notes are stored only in this browser. Once you are done writing, press",
-  "를 누르면 카톡·문자로 보낼 수 있게 정리됩니다.": "and it will be formatted for sending via KakaoTalk or text."
+  "를 누르면 카톡·문자로 보낼 수 있게 정리됩니다.": "and it will be formatted for sending via KakaoTalk or text.",
+  "거래처룸 로그인": "CLIENT ROOM LOGIN"
 }
