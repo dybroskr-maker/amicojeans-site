@@ -1,4 +1,4 @@
-# AMILOOM — 아미코 사이트 자동화 절차 정본
+# amicoloom — 아미코 사이트 자동화 절차 정본
 
 ## 먼저 볼 것
 
@@ -97,7 +97,7 @@ gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo dybroskr-maker/amicojeans-site
 ## 에이전트 상호운용
 
 이 저장소는 Claude Code, Codex, 채팅세션과 아미코 자동화 파이프라인이 번갈아 작업한다.
-파이프라인의 확정 명칭은 `amicoloom`이며, 기존 `AMILOOM` 표기 정리는 이 배치에서 하지 않는다.
+파이프라인의 확정 명칭은 `amicoloom`이다.
 
 1. **진행상태의 정본은 GitHub 이슈·PR·커밋이다.** 채팅 이력이나 별도 상태 파일로 복제하지 않는다.
 2. **정본 확인 순서** — ① `CONSTITUTION.md` 존재 확인·통독(없으면 다음 단계)
